@@ -1,0 +1,65 @@
+[
+  {
+    "id": 1,
+    "localId": 1,
+    "autor": "Marina Costa",
+    "assinatura": "Marina, de Niteroi",
+    "data": "2026-06-05",
+    "nota": 5,
+    "comentario": "Cheguei no fim da tarde e peguei um por do sol lindo. O clima ali e muito gostoso para caminhar sem pressa."
+  },
+  {
+    "id": 2,
+    "localId": 1,
+    "autor": "Thiago Ramos",
+    "assinatura": "Thiago em passeio solo",
+    "data": "2026-06-02",
+    "nota": 4,
+    "comentario": "Vale muito pela vista e pelas pedras. Fica bem cheio, mas ainda assim e um dos cantos mais bonitos da orla."
+  },
+  {
+    "id": 3,
+    "localId": 2,
+    "autor": "Camila Freitas",
+    "assinatura": "Camila e Leo",
+    "data": "2026-05-29",
+    "nota": 5,
+    "comentario": "Lugar perfeito para uma manha tranquila. O casarão e o verde criam uma atmosfera muito especial."
+  },
+  {
+    "id": 4,
+    "localId": 3,
+    "autor": "Rafael Moura",
+    "assinatura": "Rafael, turista curioso",
+    "data": "2026-06-01",
+    "nota": 4,
+    "comentario": "A arquitetura impressiona de longe e por dentro a visita rende boas reflexoes. Gostei bastante da area externa tambem."
+  },
+  {
+    "id": 5,
+    "localId": 4,
+    "autor": "Bruna Salles",
+    "assinatura": "Bruna em trilha leve",
+    "data": "2026-05-18",
+    "nota": 5,
+    "comentario": "Vista incrivel e ar fresco. Fui cedo e peguei a cidade com luz linda e pouca movimentacao."
+  },
+  {
+    "id": 6,
+    "localId": 5,
+    "autor": "Daniel Pires",
+    "assinatura": "Daniel com amigos",
+    "data": "2026-06-09",
+    "nota": 4,
+    "comentario": "A praia tem um visual bem marcante e rende fotos otimas. O mar estava forte no dia, mas o passeio compensou."
+  },
+  {
+    "id": 7,
+    "localId": 6,
+    "autor": "Juliana Nobre",
+    "assinatura": "Juliana, tarde no Aterro",
+    "data": "2026-05-25",
+    "nota": 4,
+    "comentario": "Gostei muito do conjunto entre museu e jardim. E uma visita boa para combinar cultura e caminhada ao ar livre."
+  }
+]

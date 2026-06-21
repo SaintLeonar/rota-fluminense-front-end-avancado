@@ -1,0 +1,80 @@
+[
+  {
+    "id": 1,
+    "slug": "arpoador",
+    "nome": "Arpoador",
+    "categoria": "Praias",
+    "bairro": "Ipanema",
+    "regiao": "Zona Sul",
+    "nota": 4.8,
+    "totalAvaliacoes": 128,
+    "descricao": "Entre o mar aberto e as pedras, o Arpoador entrega um fim de tarde classico do Rio com clima de encontro, agua azulada e vista ampla para Ipanema e Leblon.",
+    "imagem": "/src/assets/hero.png",
+    "destaque": true
+  },
+  {
+    "id": 2,
+    "slug": "parque-lage",
+    "nome": "Parque Lage",
+    "categoria": "Parques",
+    "bairro": "Jardim Botanico",
+    "regiao": "Zona Sul",
+    "nota": 4.7,
+    "totalAvaliacoes": 94,
+    "descricao": "Com jardins tropicais, trilhas leves e o casarão iconico aos pes do Corcovado, o Parque Lage mistura passeio cultural, pausa contemplativa e muito verde.",
+    "imagem": "/src/assets/hero.png",
+    "destaque": true
+  },
+  {
+    "id": 3,
+    "slug": "museu-do-amanha",
+    "nome": "Museu do Amanha",
+    "categoria": "Museus",
+    "bairro": "Praca Maua",
+    "regiao": "Centro",
+    "nota": 4.6,
+    "totalAvaliacoes": 211,
+    "descricao": "Na orla revitalizada do Centro, o Museu do Amanha combina arquitetura marcante, exposicoes imersivas e uma caminhada com vista para a Baia de Guanabara.",
+    "imagem": "/src/assets/hero.png",
+    "destaque": true
+  },
+  {
+    "id": 4,
+    "slug": "vista-chinesa",
+    "nome": "Vista Chinesa",
+    "categoria": "Mirantes",
+    "bairro": "Alto da Boa Vista",
+    "regiao": "Zona Norte",
+    "nota": 4.9,
+    "totalAvaliacoes": 76,
+    "descricao": "No meio da Floresta da Tijuca, a Vista Chinesa revela um panorama amplo da cidade e recompensa o trajeto com uma das paisagens mais fotogenicas do Rio.",
+    "imagem": "/src/assets/hero.png",
+    "destaque": false
+  },
+  {
+    "id": 5,
+    "slug": "praia-de-itarare",
+    "nome": "Praia de Itarare",
+    "categoria": "Praias",
+    "bairro": "Sao Conrado",
+    "regiao": "Zona Sul",
+    "nota": 4.5,
+    "totalAvaliacoes": 58,
+    "descricao": "Faixa de areia cercada por montanhas e voo livre no horizonte, ideal para quem gosta de mar, brisa forte e um visual dramatico tipico da costa carioca.",
+    "imagem": "/src/assets/hero.png",
+    "destaque": false
+  },
+  {
+    "id": 6,
+    "slug": "museu-de-arte-moderna",
+    "nome": "Museu de Arte Moderna",
+    "categoria": "Museus",
+    "bairro": "Flamengo",
+    "regiao": "Zona Sul",
+    "nota": 4.4,
+    "totalAvaliacoes": 67,
+    "descricao": "Entre o jardim aberto e a arquitetura modernista, o MAM convida a ver arte com calma e ainda oferece um passeio bonito pela orla do Aterro.",
+    "imagem": "/src/assets/hero.png",
+    "destaque": false
+  }
+]
