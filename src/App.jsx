@@ -1,16 +1,24 @@
-import { Routes, Route } from 'react-router-dom'
-import Home from './pages/Home'
-import Locais from './pages/Locais'
-import DetalheLocal from './pages/DetalheLocal'
-import NotFound from './pages/NotFound'
-
 export default function App() {
   return (
-    <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/locais" element={<Locais />} />
-      <Route path="/locais/:id" element={<DetalheLocal />} />
-      <Route path="*" element={<NotFound />} />
-    </Routes>
+    <main className="app-root">
+      <section className="app-shell">
+        <p className="eyebrow">MVP em preparacao</p>
+        <h1>Rota Fluminense</h1>
+        <p className="lead">
+          A base do projeto foi limpa e organizada para receber a navegacao,
+          os dados locais e a identidade visual editorial do produto.
+        </p>
+
+        <section className="status-card" aria-labelledby="status-title">
+          <h2 id="status-title">Estrutura pronta para a proxima fase</h2>
+          <ul>
+            <li>Projeto mantido em Vite + React</li>
+            <li>Pastas principais do MVP presentes em src</li>
+            <li>Boilerplate generico removido da entrada da aplicacao</li>
+            <li>Nomenclatura orientada ao dominio Rota Fluminense</li>
+          </ul>
+        </section>
+      </section>
+    </main>
   )
 }
