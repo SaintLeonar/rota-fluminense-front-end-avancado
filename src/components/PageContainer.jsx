@@ -1,9 +1,10 @@
-export default function PageContainer({ eyebrow, title, children }) {
+import BrandHeader from './BrandHeader'
+
+export default function PageContainer({ eyebrow, title, subtitle, children }) {
   return (
     <main className="app-root">
       <section className="app-shell">
-        {eyebrow ? <p className="eyebrow">{eyebrow}</p> : null}
-        {title ? <h1>{title}</h1> : null}
+        <BrandHeader eyebrow={eyebrow} title={title} subtitle={subtitle} />
         {children}
       </section>
     </main>
