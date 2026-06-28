@@ -55,10 +55,9 @@ export default function Locais() {
     }
   }, [])
 
-  const featuredLocais = locais.filter((local) => local.destaque)
   const categories = ['Todos', ...new Set(locais.map((local) => local.categoria))]
   const normalizedSearch = searchTerm.trim().toLowerCase()
-  const visibleLocais = featuredLocais.filter((local) => {
+  const visibleLocais = locais.filter((local) => {
     const matchesCategory =
       activeCategory === 'Todos' || local.categoria === activeCategory
 
@@ -84,8 +83,8 @@ export default function Locais() {
     >
       {status === 'loading' ? (
         <LoadingState
-          title="Carregando locais em destaque"
-          description="Estamos reunindo a selecao inicial da curadoria para esta tela."
+          title="Carregando locais"
+          description="Estamos reunindo a curadoria completa de lugares para esta tela."
         />
       ) : null}
 
@@ -118,14 +117,6 @@ export default function Locais() {
             </h2>
           </div>
 
-          {visibleLocais.length === 0 && searchTerm ? (
-            <FeedbackAlert
-              variant="warning"
-              title="Nenhum resultado para esta busca"
-              message="Revise o termo digitado ou experimente explorar outra categoria."
-            />
-          ) : null}
-
           {visibleLocais.length > 0 ? (
             <div className="card-list">
               {visibleLocais.map((local) => (
@@ -140,8 +131,8 @@ export default function Locais() {
             </div>
           ) : (
             <EmptyState
-              title="Nenhum destaque encontrado"
-              description="Tente ajustar a busca ou trocar a categoria para reencontrar locais da curadoria."
+              title="Nenhum resultado para esta busca"
+              description="Revise o termo digitado ou experimente explorar outra categoria."
             />
           )}
 
