@@ -5,7 +5,6 @@ export default function EmptyState({
 }) {
   return (
     <section className="empty-state" aria-live="polite">
-      <p className="eyebrow">Estado vazio</p>
       <h2>{title}</h2>
 
       {description ? <p className="support-copy">{description}</p> : null}

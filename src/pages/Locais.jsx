@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 import CategoryPills from '../components/CategoryPills'
 import EmptyState from '../components/EmptyState'
@@ -17,9 +17,6 @@ export default function Locais() {
   const [errorMessage, setErrorMessage] = useState('')
   const [searchTerm, setSearchTerm] = useState('')
   const [activeCategory, setActiveCategory] = useState('Todos')
-
-  // Hook registrado para apresentacao: useLocation le contexto enviado pela Home.
-  const location = useLocation()
 
   // Hook registrado para apresentacao: useNavigate abre o detalhe do local.
   const navigate = useNavigate()
@@ -58,7 +55,6 @@ export default function Locais() {
     }
   }, [])
 
-  const userName = location.state?.userName
   const featuredLocais = locais.filter((local) => local.destaque)
   const categories = ['Todos', ...new Set(locais.map((local) => local.categoria))]
   const normalizedSearch = searchTerm.trim().toLowerCase()
@@ -80,13 +76,12 @@ export default function Locais() {
   })
 
   return (
-    <PageContainer eyebrow="Exploracao" title="Locais">
-      <p className="lead">
-        {userName
-          ? `Oi, ${userName}. Estes sao alguns dos destaques iniciais da curadoria.`
-          : 'Estes sao alguns dos destaques iniciais da curadoria enquanto a tela completa de exploracao e montada.'}
-      </p>
-
+    <PageContainer
+      title="Rota Fluminense"
+      subtitle="Um diario de bolso do Rio de Janeiro"
+      rootClassName="locais-root"
+      shellClassName="locais-shell"
+    >
       {status === 'loading' ? (
         <LoadingState
           title="Carregando locais em destaque"
@@ -103,7 +98,7 @@ export default function Locais() {
       ) : null}
 
       {status === 'success' ? (
-        <section className="stack-md" aria-label="Resumo de locais">
+        <section className="locais-content stack-md" aria-label="Resumo de locais">
           <SearchBar
             label="Buscar por nome, bairro ou categoria"
             placeholder="Onde vamos hoje?"
@@ -117,10 +112,11 @@ export default function Locais() {
             onSelect={setActiveCategory}
           />
 
-          <p className="support-copy">
-            {locais.length} locais carregados, com {visibleLocais.length} destaque(s)
-            visivel(is) nesta busca.
-          </p>
+          <div className="locais-section-header" aria-label="Resumo da listagem">
+            <h2 className="locais-section-title">
+              {visibleLocais.length} lugares para explorar
+            </h2>
+          </div>
 
           {visibleLocais.length === 0 && searchTerm ? (
             <FeedbackAlert
@@ -148,6 +144,10 @@ export default function Locais() {
               description="Tente ajustar a busca ou trocar a categoria para reencontrar locais da curadoria."
             />
           )}
+
+          <p className="locais-footer-note">
+            Rota Fluminense - MVP Front-end Avancado
+          </p>
         </section>
       ) : null}
     </PageContainer>

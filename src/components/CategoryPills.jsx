@@ -11,8 +11,9 @@ export default function CategoryPills({ categories, activeCategory, onSelect }) 
             type="button"
             onClick={() => onSelect(category)}
             aria-pressed={isActive}
+            aria-label={`Filtrar por ${category}`}
           >
-            {category}
+            <span className="category-pill-label">{category}</span>
           </button>
         )
       })}

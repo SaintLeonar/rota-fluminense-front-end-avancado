@@ -12,11 +12,13 @@ export default function LocalCard({ local, onSelect }) {
       </div>
 
       <div className="local-card-body">
-        <span className="card-eyebrow">{local.categoria}</span>
-        <strong className="local-card-title">{local.nome}</strong>
-        <span className="local-card-location">
-          {local.bairro} • {local.regiao}
-        </span>
+        <div className="local-card-copy">
+          <strong className="local-card-title">{local.nome}</strong>
+          <span className="local-card-location">
+            {local.bairro} • {local.categoria}
+          </span>
+        </div>
+
         <RatingBadge rating={local.nota} />
       </div>
     </button>
