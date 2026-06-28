@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 
 import BackButton from '../components/BackButton'
@@ -9,19 +8,12 @@ import PageContainer from '../components/PageContainer'
 import PrimaryButton from '../components/PrimaryButton'
 import ReviewCard from '../components/ReviewCard'
 import ReviewForm from '../components/ReviewForm'
-import { createAvaliacao, listAvaliacoesByLocal } from '../services/avaliacoesService'
-import { findLocalByIdOrSlug } from '../services/locaisService'
-
-const initialReviewValues = {
-  autor: '',
-  nota: 5,
-  comentario: '',
-}
+import { useDetalheLocal } from '../hooks/useDetalheLocal'
 
 function DetailStars({ rating, total }) {
   const roundedRating = Math.round(Number(rating))
   const stars = Array.from({ length: 5 }, (_, index) => index + 1)
-  const reviewLabel = total === 1 ? 'avaliação' : 'avaliações'
+  const reviewLabel = total === 1 ? 'avaliacao' : 'avaliacoes'
 
   return (
     <div className="detail-rating" aria-label={`Nota ${rating}`}>
@@ -56,140 +48,42 @@ export default function DetalheLocal() {
   // Hook registrado para apresentacao: useParams le o slug dinamico da rota.
   const { slug } = useParams()
 
-  // Hook registrado para apresentacao: useState controla dados do local, diario e formulario.
-  const [local, setLocal] = useState(null)
-  const [avaliacoes, setAvaliacoes] = useState([])
-  const [status, setStatus] = useState('idle')
-  const [errorMessage, setErrorMessage] = useState('')
-  const [isFormOpen, setIsFormOpen] = useState(false)
-  const [reviewValues, setReviewValues] = useState(initialReviewValues)
-  const [isSubmittingReview, setIsSubmittingReview] = useState(false)
-  const [submitFeedback, setSubmitFeedback] = useState(null)
-
-  useEffect(() => {
-    // Hook registrado para apresentacao: useEffect busca local e avaliacoes ao entrar no detalhe.
-    let isMounted = true
-
-    async function loadDetalhe() {
-      setStatus('loading')
-      setErrorMessage('')
-
-      try {
-        const localData = await findLocalByIdOrSlug(slug)
-
-        if (!isMounted) {
-          return
-        }
-
-        setLocal(localData)
-
-        if (!localData) {
-          setAvaliacoes([])
-          setStatus('success')
-          return
-        }
-
-        const avaliacoesData = await listAvaliacoesByLocal(localData.id)
-
-        if (!isMounted) {
-          return
-        }
-
-        setAvaliacoes(avaliacoesData)
-        setStatus('success')
-      } catch (error) {
-        if (!isMounted) {
-          return
-        }
-
-        setErrorMessage(error.message)
-        setStatus('error')
-      }
-    }
-
-    loadDetalhe()
-
-    return () => {
-      isMounted = false
-    }
-  }, [slug])
-
-  function handleReviewChange(fieldName, value) {
-    setReviewValues((currentValues) => ({
-      ...currentValues,
-      [fieldName]: value,
-    }))
-  }
-
-  function handleOpenReviewForm() {
-    setSubmitFeedback(null)
-    setIsFormOpen(true)
-  }
-
-  function handleCancelReviewForm() {
-    setIsFormOpen(false)
-    setSubmitFeedback(null)
-    setReviewValues(initialReviewValues)
-  }
-
-  async function handleReviewSubmit(event) {
-    event.preventDefault()
-
-    if (!local) {
-      return
-    }
-
-    setIsSubmittingReview(true)
-    setSubmitFeedback(null)
-
-    try {
-      const novaAvaliacao = await createAvaliacao({
-        localId: local.id,
-        ...reviewValues,
-        assinatura: '',
-      })
-
-      setAvaliacoes((currentReviews) => [novaAvaliacao, ...currentReviews])
-      setReviewValues(initialReviewValues)
-      setIsFormOpen(false)
-      setSubmitFeedback(null)
-    } catch (error) {
-      setSubmitFeedback({
-        variant: 'error',
-        title: 'Não foi possível enviar a avaliação',
-        message: error.message || 'Tente novamente em instantes.',
-      })
-    } finally {
-      setIsSubmittingReview(false)
-    }
-  }
-
-  const totalReviews =
-    avaliacoes.length > 0 ? avaliacoes.length : local?.totalAvaliacoes ?? 0
-  const averageRating =
-    avaliacoes.length > 0
-      ? avaliacoes.reduce((total, review) => total + Number(review.nota), 0) /
-        avaliacoes.length
-      : local?.nota ?? 0
+  // Hook registrado para apresentacao: hook customizado concentra carregamento do detalhe e envio da avaliacao.
+  const {
+    local,
+    avaliacoes,
+    status,
+    errorMessage,
+    isFormOpen,
+    reviewValues,
+    isSubmittingReview,
+    submitFeedback,
+    totalReviews,
+    averageRating,
+    handleReviewChange,
+    handleOpenReviewForm,
+    handleCancelReviewForm,
+    handleReviewSubmit,
+  } = useDetalheLocal(slug)
 
   return (
     <PageContainer
       title="Rota Fluminense"
-      subtitle="Um diário de bolso do Rio de Janeiro"
+      subtitle="Um diario de bolso do Rio de Janeiro"
       rootClassName="detail-root"
       shellClassName="detail-shell"
     >
       {status === 'loading' ? (
         <LoadingState
-          title="Carregando informações do local"
-          description="Estamos preparando os detalhes e o diário de visitas deste destino."
+          title="Carregando informacoes do local"
+          description="Estamos preparando os detalhes e o diario de visitas deste destino."
         />
       ) : null}
 
       {status === 'error' ? (
         <FeedbackAlert
           variant="error"
-          title="Não foi possível carregar este local"
+          title="Nao foi possivel carregar este local"
           message={
             errorMessage ||
             'Tente voltar e abrir novamente o detalhe em alguns instantes.'
@@ -238,7 +132,7 @@ export default function DetalheLocal() {
 
           <aside className="detail-reviews">
             <div className="detail-reviews-header">
-              <h2 className="detail-reviews-title">Diário de visitas</h2>
+              <h2 className="detail-reviews-title">Diario de visitas</h2>
 
               <PrimaryButton className="detail-review-cta" onClick={handleOpenReviewForm}>
                 + Avaliar
@@ -272,8 +166,8 @@ export default function DetalheLocal() {
               </div>
             ) : (
               <EmptyState
-                title="Ainda não há avaliações"
-                description="Seja a primeira pessoa a registrar uma impressão sobre este local."
+                title="Ainda nao ha avaliacoes"
+                description="Seja a primeira pessoa a registrar uma impressao sobre este local."
               />
             )}
           </aside>
@@ -282,7 +176,7 @@ export default function DetalheLocal() {
 
       {status === 'success' && !local ? (
         <EmptyState
-          title="Local não encontrado"
+          title="Local nao encontrado"
           description={
             <>
               Nenhum local foi encontrado para o slug <code>{slug}</code>.

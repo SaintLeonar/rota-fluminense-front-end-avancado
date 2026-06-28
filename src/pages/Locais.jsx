@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import CategoryPills from '../components/CategoryPills'
@@ -8,71 +7,23 @@ import LocalCard from '../components/LocalCard'
 import LoadingState from '../components/LoadingState'
 import PageContainer from '../components/PageContainer'
 import SearchBar from '../components/SearchBar'
-import { listLocais } from '../services/locaisService'
+import { useLocais } from '../hooks/useLocais'
 
 export default function Locais() {
-  // Hook registrado para apresentacao: useState controla loading, erro e dados carregados.
-  const [locais, setLocais] = useState([])
-  const [status, setStatus] = useState('idle')
-  const [errorMessage, setErrorMessage] = useState('')
-  const [searchTerm, setSearchTerm] = useState('')
-  const [activeCategory, setActiveCategory] = useState('Todos')
-
-  // Hook registrado para apresentacao: useNavigate abre o detalhe do local.
+  // useNavigate abre o detalhe do local.
   const navigate = useNavigate()
 
-  useEffect(() => {
-    // Hook registrado para apresentacao: useEffect dispara a leitura inicial dos locais.
-    let isMounted = true
-
-    async function loadLocais() {
-      setStatus('loading')
-      setErrorMessage('')
-
-      try {
-        const data = await listLocais()
-
-        if (!isMounted) {
-          return
-        }
-
-        setLocais(data)
-        setStatus('success')
-      } catch (error) {
-        if (!isMounted) {
-          return
-        }
-
-        setErrorMessage(error.message)
-        setStatus('error')
-      }
-    }
-
-    loadLocais()
-
-    return () => {
-      isMounted = false
-    }
-  }, [])
-
-  const categories = ['Todos', ...new Set(locais.map((local) => local.categoria))]
-  const normalizedSearch = searchTerm.trim().toLowerCase()
-  const visibleLocais = locais.filter((local) => {
-    const matchesCategory =
-      activeCategory === 'Todos' || local.categoria === activeCategory
-
-    if (!matchesCategory) {
-      return false
-    }
-
-    if (!normalizedSearch) {
-      return true
-    }
-
-    return [local.nome, local.bairro, local.categoria, local.regiao].some((value) =>
-      value.toLowerCase().includes(normalizedSearch),
-    )
-  })
+  // hook customizado concentra busca, filtros e carregamento.
+  const {
+    status,
+    errorMessage,
+    searchTerm,
+    setSearchTerm,
+    activeCategory,
+    setActiveCategory,
+    categories,
+    visibleLocais,
+  } = useLocais()
 
   return (
     <PageContainer

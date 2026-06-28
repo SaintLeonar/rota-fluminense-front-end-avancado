@@ -4,7 +4,7 @@ import PrimaryButton from '../components/PrimaryButton'
 import SecondaryButton from '../components/SecondaryButton'
 
 export default function NotFound() {
-  // Hook registrado para apresentacao: useNavigate oferece retorno programatico para rotas validas.
+  // useNavigate oferece retorno programatico para rotas validas.
   const navigate = useNavigate()
 
   return (
