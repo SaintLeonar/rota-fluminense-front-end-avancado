@@ -817,12 +817,30 @@ a {
 }
 
 .detail-page .review-form-star {
+  all: unset;
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   width: 24px;
   height: 24px;
   padding: 0;
-  border: 0;
-  background: transparent;
+  cursor: pointer;
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  outline: none;
   color: rgba(255, 175, 68, 0.42);
+}
+
+.detail-page .review-form-star:hover,
+.detail-page .review-form-star:focus,
+.detail-page .review-form-star:focus-visible,
+.detail-page .review-form-star:active {
+  background: transparent;
+  box-shadow: none;
+  outline: none;
 }
 
 .detail-page .review-form-star.is-active {
