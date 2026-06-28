@@ -31,18 +31,7 @@ export default function ReviewForm({
           name="autor"
           value={values.autor}
           onChange={handleFieldChange}
-          required
-        />
-      </label>
-
-      <label className="review-form-field">
-        <span className="review-form-label">Como assinar?</span>
-        <input
-          className="review-form-input"
-          type="text"
-          name="assinatura"
-          value={values.assinatura}
-          onChange={handleFieldChange}
+          placeholder="Como assinar?"
           required
         />
       </label>
