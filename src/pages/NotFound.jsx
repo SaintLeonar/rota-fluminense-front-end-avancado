@@ -1,6 +1,5 @@
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
-import PageContainer from '../components/PageContainer'
 import PrimaryButton from '../components/PrimaryButton'
 import SecondaryButton from '../components/SecondaryButton'
 
@@ -8,23 +7,35 @@ export default function NotFound() {
   // Hook registrado para apresentacao: useNavigate oferece retorno programatico para rotas validas.
   const navigate = useNavigate()
 
-  // Hook registrado para apresentacao: useLocation expoe a rota invalida acessada pelo usuario.
-  const location = useLocation()
-
   return (
-    <PageContainer eyebrow="Erro de rota" title="Pagina nao encontrada">
-      <p className="lead">
-        A rota <code>{location.pathname}</code> nao foi localizada.
-      </p>
+    <main className="notfound-root">
+      <section className="notfound-stage">
+        <article className="notfound-card">
+          <p className="notfound-badge">ERRO 404</p>
+          <h1 className="notfound-title">Ops</h1>
+          <h2 className="notfound-subtitle">Esse caminho não está no mapa</h2>
+          <p className="notfound-copy">
+            A página que você procura pode ter mudado de lugar ou nunca existiu.
+            Volte para a Rota Fluminense e continue explorando o Rio.
+          </p>
 
-      <div className="button-row">
-        <PrimaryButton onClick={() => navigate('/')}>
-          Voltar ao inicio
-        </PrimaryButton>
-        <SecondaryButton onClick={() => navigate('/locais')}>
-          Ir para locais
-        </SecondaryButton>
-      </div>
-    </PageContainer>
+          <div className="notfound-actions">
+            <PrimaryButton
+              className="notfound-primary-button"
+              onClick={() => navigate('/locais')}
+            >
+              Voltar ao início
+            </PrimaryButton>
+
+            <SecondaryButton
+              className="notfound-secondary-button"
+              onClick={() => navigate('/')}
+            >
+              Tela de boas-vindas
+            </SecondaryButton>
+          </div>
+        </article>
+      </section>
+    </main>
   )
 }
