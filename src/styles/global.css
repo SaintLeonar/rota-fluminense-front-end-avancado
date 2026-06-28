@@ -492,16 +492,17 @@ a {
 
 .detail-page {
   display: grid;
+  grid-template-areas:
+    "hero"
+    "main"
+    "reviews";
+  grid-template-columns: minmax(0, 1fr);
   gap: 18px;
   padding-bottom: 28px;
 }
 
-.detail-primary-column {
-  display: grid;
-  gap: 18px;
-}
-
 .detail-hero {
+  grid-area: hero;
   position: relative;
 }
 
@@ -512,7 +513,7 @@ a {
   object-fit: cover;
 }
 
-.detail-back-button {
+.detail-back-button.back-button {
   position: absolute;
   top: 20px;
   left: 20px;
@@ -520,15 +521,22 @@ a {
   width: 48px;
   height: 48px;
   padding: 0;
+  margin-bottom: 0;
   justify-content: center;
-  border: 0;
+  border: 1px solid #e3dbc9;
   border-radius: 999px;
-  background: rgba(245, 239, 227, 0.95);
+  background: #efe4d0;
   color: #233d5d;
   box-shadow: 0 8px 18px rgba(31, 47, 61, 0.1);
 }
 
+.detail-back-button.back-button:hover {
+  background: #ecdfc8;
+  border-color: #ddd2bc;
+}
+
 .detail-main {
+  grid-area: main;
   display: grid;
   gap: 12px;
   padding: 0 22px;
@@ -627,6 +635,7 @@ a {
 }
 
 .detail-reviews {
+  grid-area: reviews;
   display: grid;
   gap: 18px;
   padding: 0 22px;
@@ -981,9 +990,14 @@ a {
 
 .primary-button,
 .secondary-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
   padding: 14px 18px;
   border-radius: var(--radius-pill);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
+  white-space: nowrap;
 }
 
 .primary-button {
@@ -1026,8 +1040,19 @@ a {
 }
 
 .back-button-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
   font-size: 1rem;
   line-height: 1;
+}
+
+.back-button-icon svg {
+  width: 100%;
+  height: 100%;
+  display: block;
 }
 
 .support-copy {
@@ -1600,7 +1625,7 @@ a {
   }
 
   .detail-shell {
-    width: min(100%, 860px);
+    width: 100%;
   }
 
   .detail-shell .brand-header {
@@ -1610,10 +1635,6 @@ a {
   .detail-page {
     gap: 24px;
     padding-bottom: 32px;
-  }
-
-  .detail-primary-column {
-    gap: 20px;
   }
 
   .detail-hero-image {
@@ -1883,10 +1904,6 @@ a {
     padding-bottom: 24px;
   }
 
-  .detail-primary-column {
-    gap: 18px;
-  }
-
   .detail-hero-image {
     aspect-ratio: 1.24 / 1;
   }
@@ -2087,27 +2104,26 @@ a {
   }
 
   .detail-shell {
-    width: min(100%, 920px);
+    width: min(100%, 1240px);
   }
 
   .detail-shell .brand-header {
-    padding: 24px 34px 18px;
+    padding: 24px 40px 18px;
   }
 
   .detail-page {
-    grid-template-columns: minmax(0, 1fr) 258px;
+    grid-template-areas:
+      "hero ."
+      "main reviews";
+    grid-template-columns: minmax(0, 1fr) 380px;
     align-items: start;
-    gap: 32px;
-    padding: 0 34px 34px;
-  }
-
-  .detail-primary-column {
-    gap: 18px;
-    min-width: 0;
+    column-gap: 30px;
+    row-gap: 24px;
+    padding: 0 40px 36px;
   }
 
   .detail-hero-image {
-    aspect-ratio: 1.76 / 1;
+    aspect-ratio: 1.58 / 1;
     border-radius: 32px;
   }
 
@@ -2142,34 +2158,34 @@ a {
   }
 
   .detail-description {
-    max-width: 49ch;
+    max-width: 70ch;
     font-size: 0.98rem;
     line-height: 1.58;
   }
 
   .detail-reviews {
-    gap: 16px;
-    padding-top: 322px;
+    gap: 18px;
+    padding-top: 6px;
   }
 
   .detail-reviews-title {
-    font-size: 1.55rem;
+    font-size: 2rem;
   }
 
   .detail-review-cta {
-    min-height: 28px;
-    padding-inline: 14px;
-    font-size: 0.65rem;
+    min-height: 36px;
+    padding-inline: 18px;
+    font-size: 0.76rem;
   }
 
   .detail-review-list {
-    gap: 14px;
+    gap: 16px;
   }
 
   .detail-page .review-card {
-    gap: 8px;
-    padding: 14px 14px 12px;
-    border-radius: 20px;
+    gap: 10px;
+    padding: 18px 18px 16px;
+    border-radius: 24px;
   }
 
   .detail-page .review-card-author {

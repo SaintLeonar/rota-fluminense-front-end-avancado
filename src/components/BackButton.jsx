@@ -25,7 +25,7 @@ export default function BackButton({
       <span className="back-button-icon" aria-hidden="true">
         <svg viewBox="0 0 24 24" focusable="false">
           <path
-            d="M14.75 5.75L8.5 12l6.25 6.25"
+            d="M14.5 5.75L8.25 12l6.25 6.25M8.75 12h6.75"
             fill="none"
             stroke="currentColor"
             strokeLinecap="round"

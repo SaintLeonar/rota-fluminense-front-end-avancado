@@ -203,44 +203,42 @@ export default function DetalheLocal() {
 
       {status === 'success' && local ? (
         <article className="detail-page">
-          <div className="detail-primary-column">
-            <div className="detail-hero">
-              <BackButton className="detail-back-button" iconOnly />
+          <div className="detail-hero">
+            <BackButton className="detail-back-button" iconOnly />
 
-              <img
-                className="detail-hero-image"
-                src={local.imagem}
-                alt={`Vista de ${local.nome}`}
-              />
-            </div>
+            <img
+              className="detail-hero-image"
+              src={local.imagem}
+              alt={`Vista de ${local.nome}`}
+            />
+          </div>
 
-            <section className="detail-main">
-              <p className="detail-category-pill">{local.categoria.toUpperCase()}</p>
-              <h1 className="detail-title">{local.nome}</h1>
+          <section className="detail-main">
+            <p className="detail-category-pill">{local.categoria.toUpperCase()}</p>
+            <h1 className="detail-title">{local.nome}</h1>
 
-              <div className="detail-meta">
-                <div className="detail-location">
-                  <span className="detail-location-icon" aria-hidden="true">
-                    <svg viewBox="0 0 24 24" focusable="false">
-                      <path
-                        d="M12 20s6-5.2 6-10a6 6 0 1 0-12 0c0 4.8 6 10 6 10Zm0-7.5a2.5 2.5 0 1 0 0-5a2.5 2.5 0 0 0 0 5Z"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="1.8"
-                      />
-                    </svg>
-                  </span>
-                  <span>{local.bairro}, Rio de Janeiro</span>
-                </div>
-
-                <DetailStars rating={averageRating} total={totalReviews} />
+            <div className="detail-meta">
+              <div className="detail-location">
+                <span className="detail-location-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" focusable="false">
+                    <path
+                      d="M12 20s6-5.2 6-10a6 6 0 1 0-12 0c0 4.8 6 10 6 10Zm0-7.5a2.5 2.5 0 1 0 0-5a2.5 2.5 0 0 0 0 5Z"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="1.8"
+                    />
+                  </svg>
+                </span>
+                <span>{local.bairro}, Rio de Janeiro</span>
               </div>
 
-              <p className="detail-description">{local.descricao}</p>
-            </section>
-          </div>
+              <DetailStars rating={averageRating} total={totalReviews} />
+            </div>
+
+            <p className="detail-description">{local.descricao}</p>
+          </section>
 
           <aside className="detail-reviews">
             <div className="detail-reviews-header">
