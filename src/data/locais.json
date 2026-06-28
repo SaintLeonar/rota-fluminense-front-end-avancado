@@ -17,25 +17,25 @@
     "slug": "parque-lage",
     "nome": "Parque Lage",
     "categoria": "Parques",
-    "bairro": "Jardim Botanico",
+    "bairro": "Jardim Botânico",
     "regiao": "Zona Sul",
     "nota": 4.7,
     "totalAvaliacoes": 94,
     "descricao": "Com jardins tropicais, trilhas leves e o casarão iconico aos pes do Corcovado, o Parque Lage mistura passeio cultural, pausa contemplativa e muito verde.",
-    "imagem": "/src/assets/hero.png",
+    "imagem": "/src/assets/parque-lage1.jpg",
     "destaque": true
   },
   {
     "id": 3,
     "slug": "museu-do-amanha",
-    "nome": "Museu do Amanha",
+    "nome": "Museu do Amanhã",
     "categoria": "Museus",
-    "bairro": "Praca Maua",
+    "bairro": "Praça Mauá",
     "regiao": "Centro",
     "nota": 4.6,
     "totalAvaliacoes": 211,
     "descricao": "Na orla revitalizada do Centro, o Museu do Amanha combina arquitetura marcante, exposicoes imersivas e uma caminhada com vista para a Baia de Guanabara.",
-    "imagem": "/src/assets/hero.png",
+    "imagem": "/src/assets/museu-do-amanha1.jpg",
     "destaque": true
   },
   {
@@ -48,21 +48,21 @@
     "nota": 4.9,
     "totalAvaliacoes": 76,
     "descricao": "No meio da Floresta da Tijuca, a Vista Chinesa revela um panorama amplo da cidade e recompensa o trajeto com uma das paisagens mais fotogenicas do Rio.",
-    "imagem": "/src/assets/hero.png",
-    "destaque": false
+    "imagem": "/src/assets/vista-chinesa1.jpg",
+    "destaque": true
   },
   {
     "id": 5,
-    "slug": "praia-de-itarare",
-    "nome": "Praia de Itarare",
+    "slug": "praia-de-sao-conrado",
+    "nome": "Praia de São Conrado",
     "categoria": "Praias",
-    "bairro": "Sao Conrado",
+    "bairro": "São Conrado",
     "regiao": "Zona Sul",
     "nota": 4.5,
     "totalAvaliacoes": 58,
     "descricao": "Faixa de areia cercada por montanhas e voo livre no horizonte, ideal para quem gosta de mar, brisa forte e um visual dramatico tipico da costa carioca.",
-    "imagem": "/src/assets/hero.png",
-    "destaque": false
+    "imagem": "/src/assets/praia-sao-conrado1.jpg",
+    "destaque": true
   },
   {
     "id": 6,
@@ -74,7 +74,7 @@
     "nota": 4.4,
     "totalAvaliacoes": 67,
     "descricao": "Entre o jardim aberto e a arquitetura modernista, o MAM convida a ver arte com calma e ainda oferece um passeio bonito pela orla do Aterro.",
-    "imagem": "/src/assets/hero.png",
-    "destaque": false
+    "imagem": "/src/assets/museu-arte-moderna1.jpg",
+    "destaque": true
   }
 ]
