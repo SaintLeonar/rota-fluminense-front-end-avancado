@@ -20,7 +20,7 @@ export default function ReviewForm({
   }
 
   return (
-    <form className={resolvedClassName} onSubmit={onSubmit}>
+    <form className={resolvedClassName} onSubmit={onSubmit} autoComplete="off">
       <h3 className="review-form-title">{title}</h3>
 
       <label className="review-form-field">
@@ -32,6 +32,7 @@ export default function ReviewForm({
           value={values.autor}
           onChange={handleFieldChange}
           placeholder="Como assinar?"
+          autoComplete="off"
           required
         />
       </label>
@@ -73,6 +74,7 @@ export default function ReviewForm({
           value={values.comentario}
           onChange={handleFieldChange}
           placeholder="O que achou do passeio?"
+          autoComplete="off"
           rows="4"
         />
       </label>
