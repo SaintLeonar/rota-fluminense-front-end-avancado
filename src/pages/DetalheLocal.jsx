@@ -14,7 +14,6 @@ import { findLocalByIdOrSlug } from '../services/locaisService'
 
 const initialReviewValues = {
   autor: '',
-  assinatura: '',
   nota: 5,
   comentario: '',
 }
@@ -147,16 +146,13 @@ export default function DetalheLocal() {
       const novaAvaliacao = await createAvaliacao({
         localId: local.id,
         ...reviewValues,
+        assinatura: '',
       })
 
       setAvaliacoes((currentReviews) => [novaAvaliacao, ...currentReviews])
       setReviewValues(initialReviewValues)
       setIsFormOpen(false)
-      setSubmitFeedback({
-        variant: 'success',
-        title: 'Avaliação enviada',
-        message: 'Seu comentário agora faz parte do diário de visitas.',
-      })
+      setSubmitFeedback(null)
     } catch (error) {
       setSubmitFeedback({
         variant: 'error',
@@ -249,7 +245,7 @@ export default function DetalheLocal() {
               </PrimaryButton>
             </div>
 
-            {submitFeedback ? (
+            {submitFeedback?.variant === 'error' ? (
               <FeedbackAlert
                 variant={submitFeedback.variant}
                 title={submitFeedback.title}
