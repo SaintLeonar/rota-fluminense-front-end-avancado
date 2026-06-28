@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Outfit:wght@600;700&display=swap");
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -37,8 +39,8 @@
   --radius-card-sm: 20px;
 
   /* Tipografia base para textos corridos e destaque para títulos. */
-  --font-body: "Aptos", "Segoe UI", "Trebuchet MS", sans-serif;
-  --font-display: "Trebuchet MS", "Aptos Display", "Gill Sans", sans-serif;
+  --font-body: "Figtree", "Segoe UI", sans-serif;
+  --font-display: "Outfit", "Trebuchet MS", sans-serif;
 
   /* Espaçamentos fluidos da página e largura máxima de leitura. */
   --space-page-x: clamp(16px, 4vw, 40px);
@@ -117,6 +119,26 @@ a {
   background: rgba(241, 164, 105, 0.14);
 }
 
+.home-root::before {
+  top: auto;
+  left: -120px;
+  bottom: -90px;
+  width: 360px;
+  height: 360px;
+  background: rgba(92, 189, 185, 0.24);
+  filter: blur(28px);
+}
+
+.home-root::after {
+  top: 4%;
+  right: -70px;
+  bottom: auto;
+  width: 340px;
+  height: 340px;
+  background: rgba(240, 165, 58, 0.18);
+  filter: blur(28px);
+}
+
 .app-shell {
   position: relative;
   z-index: 1;
@@ -164,6 +186,132 @@ a {
   font-size: 1.02rem;
   line-height: 1.6;
   color: var(--color-text-soft);
+}
+
+.home-layout {
+  display: grid;
+  justify-items: center;
+  gap: 18px;
+}
+
+.home-shell {
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  text-align: center;
+}
+
+.home-shell .brand-header {
+  justify-items: center;
+}
+
+.home-shell .brand-subtitle {
+  text-align: center;
+  margin-inline: auto;
+}
+
+.home-title-accent {
+  color: #2d8a9e;
+}
+
+.home-title-line {
+  display: block;
+}
+
+.home-entry-card {
+  width: min(100%, 526px);
+  display: grid;
+  gap: 16px;
+  padding: 22px 22px 24px;
+  border-radius: 28px;
+  background: rgba(255, 255, 255, 0.96);
+  border: 1px solid rgba(216, 209, 194, 0.52);
+  box-shadow: 0 14px 30px rgba(12, 35, 64, 0.08);
+  text-align: left;
+}
+
+.home-card-copy {
+  display: grid;
+  gap: 4px;
+  text-align: left;
+}
+
+.home-card-copy h2 {
+  font-family: var(--font-display);
+  font-size: clamp(1.45rem, 2vw, 1.9rem);
+  color: #0c2340;
+  letter-spacing: -0.02em;
+}
+
+.home-card-copy .support-copy {
+  font-size: 0.95rem;
+  color: #6c7d91;
+}
+
+.home-form-row {
+  width: 100%;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 126px;
+  gap: 10px;
+  align-items: center;
+}
+
+.field-input.home-name-input {
+  min-height: 54px;
+  padding: 0 18px;
+  border: 2px solid #39a1b4;
+  border-radius: 999px;
+  background: #f5efe3;
+  box-shadow: none;
+  color: #1a4a6e;
+}
+
+.home-submit-button {
+  min-height: 54px;
+  padding: 0 20px;
+  background: #9baabf;
+  color: #ffffff;
+  box-shadow: none;
+  font-weight: 600;
+}
+
+.home-submit-button:hover {
+  background: #8f9fb5;
+}
+
+.home-submit-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.home-submit-arrow {
+  font-size: 1.05em;
+  line-height: 1;
+}
+
+.home-direct-access {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #7b8897;
+  font-size: 0.92rem;
+}
+
+.home-direct-link {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #2d8a9e;
+  font-weight: 700;
+  box-shadow: none;
+  cursor: pointer;
+}
+
+.home-direct-link:hover {
+  transform: none;
+  text-decoration: underline;
 }
 
 .stack-md {
@@ -661,8 +809,8 @@ a {
   }
 }
 
-/* Tablet: 768px até 1023px. */
-@media (min-width: 768px) and (max-width: 1023px) {
+/* Tablet: 768px até 1365px. */
+@media (min-width: 768px) and (max-width: 1365px) {
   .app-root::before {
     left: -80px;
     width: 240px;
@@ -674,12 +822,56 @@ a {
     width: 220px;
     height: 220px;
   }
+
+  .home-root::before {
+    left: -90px;
+    bottom: -80px;
+    width: 300px;
+    height: 300px;
+  }
+
+  .home-root::after {
+    top: 5%;
+    right: -40px;
+    width: 280px;
+    height: 280px;
+  }
+
+  .home-shell {
+    width: min(640px, 100%);
+    padding: 72px 20px 34px;
+  }
+
+  .home-shell h1 {
+    max-width: 10.5ch;
+    margin-bottom: 14px;
+    font-size: clamp(3.6rem, 8vw, 4.4rem);
+    line-height: 0.95;
+    letter-spacing: -0.04em;
+  }
+
+  .home-shell .brand-subtitle {
+    max-width: 31ch;
+    margin-bottom: 34px;
+    font-size: 0.98rem;
+    justify-self: center;
+  }
+
+  .home-entry-card {
+    width: min(100%, 560px);
+    padding: 24px 28px 26px;
+  }
 }
 
 /* Mobile: até 767px. */
 @media (max-width: 767px) {
   .app-shell {
     border-radius: var(--radius-card-sm);
+  }
+
+  .home-shell {
+    width: 100%;
+    padding: 28px 20px 32px;
   }
 
   .app-root::before {
@@ -696,12 +888,59 @@ a {
     height: 200px;
   }
 
-  .app-shell h1 {
-    font-size: clamp(2rem, 11vw, 2.8rem);
+  .home-root::before {
+    left: -120px;
+    bottom: -70px;
+    width: 260px;
+    height: 260px;
+  }
+
+  .home-root::after {
+    top: 8%;
+    right: -80px;
+    width: 240px;
+    height: 240px;
   }
 
   .lead {
     font-size: 0.98rem;
+  }
+
+  .home-shell h1 {
+    margin-bottom: 14px;
+    font-size: clamp(3.05rem, 14vw, 3.95rem);
+    line-height: 1;
+  }
+
+  .home-shell .brand-subtitle {
+    max-width: 24ch;
+    margin-bottom: 36px;
+    font-size: 1rem;
+  }
+
+  .home-entry-card {
+    width: 100%;
+    max-width: 530px;
+    padding: 20px 18px 22px;
+    border-radius: 24px;
+  }
+
+  .home-card-copy h2 {
+    font-size: 1.3rem;
+  }
+
+  .home-form-row {
+    grid-template-columns: minmax(0, 1fr) 116px;
+  }
+
+  .home-submit-button {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .home-direct-access {
+    flex-wrap: wrap;
+    justify-content: center;
   }
 
   .button-row {
@@ -723,9 +962,32 @@ a {
   }
 }
 
-/* Desktop: 1024px ou mais. */
-@media (min-width: 1024px) {
+/* Desktop: 1366px ou mais. */
+@media (min-width: 1366px) {
   .app-shell {
     backdrop-filter: blur(10px);
+  }
+
+  .home-shell {
+    width: min(680px, 100%);
+    padding: 84px 24px 42px;
+  }
+
+  .home-shell h1 {
+    max-width: 12.2ch;
+    margin-bottom: 16px;
+    font-size: clamp(3.85rem, 5vw, 4.4rem);
+    line-height: 0.96;
+    letter-spacing: -0.045em;
+  }
+
+  .home-shell .brand-subtitle {
+    max-width: 42ch;
+    margin-bottom: 34px;
+    font-size: 1rem;
+  }
+
+  .home-entry-card {
+    padding: 22px 22px 24px;
   }
 }
