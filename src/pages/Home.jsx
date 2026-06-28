@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom'
 
 import PageContainer from '../components/PageContainer'
 import PrimaryButton from '../components/PrimaryButton'
-import SecondaryButton from '../components/SecondaryButton'
 
 export default function Home() {
   // Hook registrado para apresentacao: useState controla o nome digitado.
@@ -18,37 +17,66 @@ export default function Home() {
     })
   }
 
+  function handleSubmit(event) {
+    event.preventDefault()
+    handleEnter()
+  }
+
   return (
     <PageContainer
-      eyebrow="Boas-vindas"
-      title="Rota Fluminense"
-      subtitle="Um diario de bolso para descobrir praias, mirantes, museus e parques com olhar local."
+      rootClassName="home-root"
+      shellClassName="home-shell"
+      title={
+        <>
+          <span className="home-title-line">
+            <span>Bem-vindo à </span>
+            <span className="home-title-accent">Rota</span>
+          </span>
+          <span className="home-title-line home-title-accent">
+            Fluminense
+          </span>
+        </>
+      }
+      subtitle="Um diário de bolso para explorar praias, mirantes, museus e parques do Rio - com avaliações de quem vive a cidade."
     >
-      <p className="lead">
-        Estrutura principal de rotas configurada. Esta tela ja usa estado para
-        capturar o nome do visitante e navegacao programatica para seguir ao
-        fluxo de exploracao.
-      </p>
+      <div className="home-layout">
+        <form className="home-entry-card" onSubmit={handleSubmit}>
+          <div className="home-card-copy">
+            <h2>Como se chama?</h2>
+            <p className="support-copy">
+              Vamos usar seu nome para personalizar a viagem.
+            </p>
+          </div>
 
-      <div className="stack-md">
-        <label className="field">
-          <span className="field-label">Como voce quer ser chamado?</span>
-          <input
-            className="field-input"
-            type="text"
-            placeholder="Digite seu nome"
-            value={userName}
-            onChange={(event) => setUserName(event.target.value)}
-          />
-        </label>
+          <div className="home-form-row">
+            <input
+              className="field-input home-name-input"
+              type="text"
+              name="userName"
+              placeholder="Seu nome"
+              autoComplete="given-name"
+              value={userName}
+              onChange={(event) => setUserName(event.target.value)}
+            />
 
-        <div className="button-row">
-          <PrimaryButton onClick={handleEnter}>
-            Entrar
-          </PrimaryButton>
-          <SecondaryButton onClick={() => navigate('/locais')}>
-            Ir direto para explorar
-          </SecondaryButton>
+            <PrimaryButton type="submit" className="home-submit-button">
+              <span>Entrar</span>
+              <span className="home-submit-arrow" aria-hidden="true">
+                →
+              </span>
+            </PrimaryButton>
+          </div>
+        </form>
+
+        <div className="home-direct-access">
+          <span>Já conhece?</span>
+          <button
+            type="button"
+            className="home-direct-link"
+            onClick={() => navigate('/locais')}
+          >
+            Ir direto ao mapa
+          </button>
         </div>
       </div>
     </PageContainer>
