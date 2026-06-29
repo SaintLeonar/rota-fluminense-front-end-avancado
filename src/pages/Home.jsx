@@ -1,19 +1,21 @@
-import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
+import { useStoredTravelerName } from '../hooks/useStoredTravelerName'
 import PageContainer from '../components/PageContainer'
 import PrimaryButton from '../components/PrimaryButton'
 
 export default function Home() {
-  // Hook registrado para apresentacao: useState controla o nome digitado.
-  const [userName, setUserName] = useState('')
+  // Hook registrado para apresentacao: hook customizado reaproveita e persiste o nome do viajante.
+  const { userName, setUserName, persistUserName } = useStoredTravelerName()
 
   // Hook registrado para apresentacao: useNavigate dispara a ida para /locais.
   const navigate = useNavigate()
 
   function handleEnter() {
+    const normalizedUserName = persistUserName()
+
     navigate('/locais', {
-      state: { userName: userName.trim() },
+      state: { userName: normalizedUserName },
     })
   }
 
@@ -26,20 +28,25 @@ export default function Home() {
     <PageContainer
       rootClassName="home-root"
       shellClassName="home-shell"
-      title={
-        <>
-          <span className="home-title-line">
-            <span>Bem-vindo à </span>
-            <span className="home-title-accent">Rota</span>
-          </span>
-          <span className="home-title-line home-title-accent">
-            Fluminense
-          </span>
-        </>
-      }
-      subtitle="Um diário de bolso para explorar praias, mirantes, museus e parques do Rio - com avaliações de quem vive a cidade."
+      showUserPanel={false}
     >
       <div className="home-layout">
+        <div className="home-hero-copy">
+          <h1>
+            <span className="home-title-line">
+              <span>{'Bem-vindo \u00e0 '}</span>
+              <span className="home-title-accent">Rota</span>
+            </span>
+            <span className="home-title-line home-title-accent">Fluminense</span>
+          </h1>
+
+          <p className="brand-subtitle">
+            {
+              'Um di\u00e1rio de bolso para explorar praias, mirantes, museus e parques do Rio - com avalia\u00e7\u00f5es de quem vive a cidade.'
+            }
+          </p>
+        </div>
+
         <form className="home-entry-card" onSubmit={handleSubmit}>
           <div className="home-card-copy">
             <h2>Como se chama?</h2>
@@ -61,15 +68,13 @@ export default function Home() {
 
             <PrimaryButton type="submit" className="home-submit-button">
               <span>Entrar</span>
-              <span className="home-submit-arrow" aria-hidden="true">
-                →
-              </span>
+              <span className="home-submit-arrow" aria-hidden="true">&rarr;</span>
             </PrimaryButton>
           </div>
         </form>
 
         <div className="home-direct-access">
-          <span>Já conhece?</span>
+          <span>{'J\u00e1 conhece?'}</span>
           <button
             type="button"
             className="home-direct-link"

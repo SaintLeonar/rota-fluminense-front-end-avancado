@@ -2,11 +2,14 @@ import { useEffect, useState } from 'react'
 
 import { createAvaliacao, listAvaliacoesByLocal } from '../services/avaliacoesService'
 import { findLocalByIdOrSlug } from '../services/locaisService'
+import { readStoredTravelerName } from './useStoredTravelerName'
 
-const initialReviewValues = {
-  autor: '',
-  nota: 5,
-  comentario: '',
+function createInitialReviewValues() {
+  return {
+    autor: readStoredTravelerName(),
+    nota: 5,
+    comentario: '',
+  }
 }
 
 export function useDetalheLocal(slug) {
@@ -15,7 +18,7 @@ export function useDetalheLocal(slug) {
   const [status, setStatus] = useState('idle')
   const [errorMessage, setErrorMessage] = useState('')
   const [isFormOpen, setIsFormOpen] = useState(false)
-  const [reviewValues, setReviewValues] = useState(initialReviewValues)
+  const [reviewValues, setReviewValues] = useState(() => createInitialReviewValues())
   const [isSubmittingReview, setIsSubmittingReview] = useState(false)
   const [submitFeedback, setSubmitFeedback] = useState(null)
 
@@ -81,7 +84,7 @@ export function useDetalheLocal(slug) {
   function handleCancelReviewForm() {
     setIsFormOpen(false)
     setSubmitFeedback(null)
-    setReviewValues(initialReviewValues)
+    setReviewValues(createInitialReviewValues())
   }
 
   async function handleReviewSubmit(event) {
@@ -102,7 +105,7 @@ export function useDetalheLocal(slug) {
       })
 
       setAvaliacoes((currentReviews) => [novaAvaliacao, ...currentReviews])
-      setReviewValues(initialReviewValues)
+      setReviewValues(createInitialReviewValues())
       setIsFormOpen(false)
       setSubmitFeedback(null)
     } catch (error) {

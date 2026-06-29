@@ -25,6 +25,11 @@ export default function ReviewCard({ review }) {
           <p className="review-card-date">{formatReviewDate(review.data)}</p>
         </div>
 
+        {/*
+          Icone de lixeira desativado no MVP:
+          ainda nao existe regra de permissao para permitir que usuarios removam comentarios.
+        */}
+        {/*
         <span className="review-card-icon" aria-hidden="true">
           <svg viewBox="0 0 24 24" focusable="false">
             <path
@@ -37,6 +42,7 @@ export default function ReviewCard({ review }) {
             />
           </svg>
         </span>
+        */}
       </div>
 
       {review.assinatura ? (

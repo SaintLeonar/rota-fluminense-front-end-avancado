@@ -7,6 +7,7 @@ export default function PageContainer({
   children,
   rootClassName = '',
   shellClassName = '',
+  showUserPanel = true,
 }) {
   const resolvedRootClassName = ['app-root', rootClassName].filter(Boolean).join(' ')
   const resolvedShellClassName = ['app-shell', shellClassName]
@@ -16,7 +17,12 @@ export default function PageContainer({
   return (
     <main className={resolvedRootClassName}>
       <section className={resolvedShellClassName}>
-        <BrandHeader eyebrow={eyebrow} title={title} subtitle={subtitle} />
+        <BrandHeader
+          eyebrow={eyebrow}
+          title={title}
+          subtitle={subtitle}
+          showUserPanel={showUserPanel}
+        />
         {children}
       </section>
     </main>

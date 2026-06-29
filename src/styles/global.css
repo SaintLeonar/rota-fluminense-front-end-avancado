@@ -151,7 +151,45 @@ a {
 }
 
 .brand-header {
-  display: grid;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.brand-header-main {
+  min-width: 0;
+}
+
+.brand-user-panel {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-left: auto;
+  padding-top: 4px;
+}
+
+.brand-user-greeting {
+  color: var(--color-primary);
+  font-size: 0.96rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.brand-user-signout {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #2d8a9e;
+  font-family: var(--font-display);
+  font-size: 0.88rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.brand-user-signout:hover {
+  text-decoration: underline;
 }
 
 .eyebrow {
@@ -201,11 +239,16 @@ a {
   text-align: center;
 }
 
-.home-shell .brand-header {
+.home-hero-copy {
+  width: min(100%, 760px);
+  margin-inline: auto;
+  display: grid;
   justify-items: center;
+  text-align: center;
 }
 
-.home-shell .brand-subtitle {
+.home-hero-copy h1,
+.home-hero-copy .brand-subtitle {
   text-align: center;
   margin-inline: auto;
 }
@@ -1622,7 +1665,8 @@ a {
     padding: 72px 20px 34px;
   }
 
-  .home-shell h1 {
+  .home-hero-copy h1 {
+    width: 100%;
     max-width: 10.5ch;
     margin-bottom: 14px;
     font-size: clamp(3.6rem, 8vw, 4.4rem);
@@ -1630,11 +1674,20 @@ a {
     letter-spacing: -0.04em;
   }
 
-  .home-shell .brand-subtitle {
+  .home-hero-copy .brand-subtitle {
+    width: 100%;
     max-width: 31ch;
     margin-bottom: 34px;
     font-size: 0.98rem;
     justify-self: center;
+  }
+
+  .brand-header {
+    align-items: flex-start;
+  }
+
+  .brand-user-panel {
+    padding-top: 2px;
   }
 
   .home-entry-card {
@@ -1868,16 +1921,29 @@ a {
     font-size: 0.98rem;
   }
 
-  .home-shell h1 {
+  .home-hero-copy h1 {
+    width: 100%;
     margin-bottom: 14px;
     font-size: clamp(3.05rem, 14vw, 3.95rem);
     line-height: 1;
   }
 
-  .home-shell .brand-subtitle {
+  .home-hero-copy .brand-subtitle {
+    width: 100%;
     max-width: 24ch;
     margin-bottom: 36px;
     font-size: 1rem;
+  }
+
+  .brand-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .brand-user-panel {
+    width: 100%;
+    justify-content: flex-end;
+    padding-top: 0;
   }
 
   .home-entry-card {
@@ -2103,7 +2169,8 @@ a {
     padding: 84px 24px 42px;
   }
 
-  .home-shell h1 {
+  .home-hero-copy h1 {
+    width: 100%;
     max-width: 12.2ch;
     margin-bottom: 16px;
     font-size: clamp(3.85rem, 5vw, 4.4rem);
@@ -2111,7 +2178,8 @@ a {
     letter-spacing: -0.045em;
   }
 
-  .home-shell .brand-subtitle {
+  .home-hero-copy .brand-subtitle {
+    width: 100%;
     max-width: 42ch;
     margin-bottom: 34px;
     font-size: 1rem;
