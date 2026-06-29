@@ -1,5 +1,5 @@
 import PrimaryButton from './PrimaryButton'
-import './ReviewForm.css'
+import styles from './ReviewForm.module.css'
 import SecondaryButton from './SecondaryButton'
 
 const ratingOptions = [1, 2, 3, 4, 5]
@@ -13,7 +13,9 @@ export default function ReviewForm({
   className = '',
   title = 'Escrever uma nota',
 }) {
-  const resolvedClassName = ['review-form', className].filter(Boolean).join(' ')
+  const resolvedClassName = ['review-form', styles.reviewForm, className]
+    .filter(Boolean)
+    .join(' ')
 
   function handleFieldChange(event) {
     const { name, value } = event.target
@@ -22,12 +24,16 @@ export default function ReviewForm({
 
   return (
     <form className={resolvedClassName} onSubmit={onSubmit} autoComplete="off">
-      <h3 className="review-form-title">{title}</h3>
+      <h3 className={['review-form-title', styles.reviewFormTitle].join(' ')}>
+        {title}
+      </h3>
 
-      <label className="review-form-field">
-        <span className="review-form-label">Seu nome</span>
+      <label className={['review-form-field', styles.reviewFormField].join(' ')}>
+        <span className={['review-form-label', styles.reviewFormLabel].join(' ')}>
+          Seu nome
+        </span>
         <input
-          className="review-form-input"
+          className={['review-form-input', styles.reviewFormInput].join(' ')}
           type="text"
           name="autor"
           value={values.autor}
@@ -38,10 +44,12 @@ export default function ReviewForm({
         />
       </label>
 
-      <fieldset className="review-form-rating">
-        <legend className="review-form-label">Sua nota</legend>
+      <fieldset className={['review-form-rating', styles.reviewFormRating].join(' ')}>
+        <legend className={['review-form-label', styles.reviewFormLabel].join(' ')}>
+          Sua nota
+        </legend>
 
-        <div className="review-form-stars">
+        <div className={['review-form-stars', styles.reviewFormStars].join(' ')}>
           {ratingOptions.map((option) => {
             const isActive = Number(values.nota) >= option
 
@@ -49,11 +57,21 @@ export default function ReviewForm({
               <button
                 key={option}
                 type="button"
-                className={`review-form-star ${isActive ? 'is-active' : ''}`}
+                className={[
+                  'review-form-star',
+                  styles.reviewFormStar,
+                  isActive ? 'is-active' : '',
+                  isActive ? styles.isActive : '',
+                ]
+                  .filter(Boolean)
+                  .join(' ')}
                 onClick={() => onChange('nota', option)}
                 aria-pressed={Number(values.nota) === option}
               >
-                <span aria-hidden="true" className="review-form-star-icon">
+                <span
+                  aria-hidden="true"
+                  className={['review-form-star-icon', styles.reviewFormStarIcon].join(' ')}
+                >
                   <svg viewBox="0 0 24 24" focusable="false">
                     <path
                       d="m12 3.6l2.57 5.21l5.75.84l-4.16 4.05l.98 5.73L12 16.73l-5.14 2.7l.98-5.73L3.68 9.65l5.75-.84L12 3.6Z"
@@ -67,10 +85,17 @@ export default function ReviewForm({
         </div>
       </fieldset>
 
-      <label className="review-form-field">
-        <span className="review-form-label">Comentário (opcional)</span>
+      <label className={['review-form-field', styles.reviewFormField].join(' ')}>
+        <span className={['review-form-label', styles.reviewFormLabel].join(' ')}>
+          Comentario (opcional)
+        </span>
         <textarea
-          className="review-form-input review-form-textarea"
+          className={[
+            'review-form-input',
+            styles.reviewFormInput,
+            'review-form-textarea',
+            styles.reviewFormTextarea,
+          ].join(' ')}
           name="comentario"
           value={values.comentario}
           onChange={handleFieldChange}
@@ -80,7 +105,7 @@ export default function ReviewForm({
         />
       </label>
 
-      <div className="review-form-actions">
+      <div className={['review-form-actions', styles.reviewFormActions].join(' ')}>
         <SecondaryButton
           className="review-form-cancel"
           onClick={onCancel}

@@ -1,4 +1,4 @@
-import './PrimaryButton.css'
+import styles from './PrimaryButton.module.css'
 
 export default function PrimaryButton({
   children,
@@ -7,7 +7,9 @@ export default function PrimaryButton({
   disabled = false,
   className = '',
 }) {
-  const resolvedClassName = ['primary-button', className].filter(Boolean).join(' ')
+  const resolvedClassName = ['primary-button', styles.primaryButton, className]
+    .filter(Boolean)
+    .join(' ')
 
   return (
     <button

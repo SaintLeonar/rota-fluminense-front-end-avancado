@@ -1,4 +1,4 @@
-.review-form {
+.reviewForm {
   display: grid;
   gap: 18px;
   padding: clamp(20px, 3vw, 28px);
@@ -8,7 +8,7 @@
   box-shadow: var(--shadow-card);
 }
 
-.review-form-title {
+.reviewFormTitle {
   font-family: var(--font-display);
   font-size: 1rem;
   line-height: 1.1;
@@ -16,18 +16,18 @@
   color: var(--color-primary);
 }
 
-.review-form-field {
+.reviewFormField {
   display: grid;
   gap: 10px;
 }
 
-.review-form-label {
+.reviewFormLabel {
   color: var(--color-primary);
   font-size: 0.94rem;
   font-weight: 700;
 }
 
-.review-form-input {
+.reviewFormInput {
   width: 100%;
   padding: 14px 16px;
   border: 1px solid var(--color-border);
@@ -37,25 +37,25 @@
   font: inherit;
 }
 
-.review-form-input:focus {
+.reviewFormInput:focus {
   outline: 2px solid color-mix(in srgb, var(--color-secondary) 35%, white);
   border-color: var(--color-secondary);
 }
 
-.review-form-rating {
+.reviewFormRating {
   display: grid;
   gap: 12px;
   padding: 0;
   border: 0;
 }
 
-.review-form-stars {
+.reviewFormStars {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
 }
 
-.review-form-star {
+.reviewFormStar {
   display: inline-flex;
   align-items: center;
   gap: 8px;
@@ -72,47 +72,47 @@
   font: inherit;
 }
 
-.review-form-star:hover {
+.reviewFormStar:hover {
   transform: translateY(-1px);
   border-color: var(--color-accent);
 }
 
-.review-form-star.is-active {
+.reviewFormStar.isActive {
   background: color-mix(in srgb, var(--color-accent) 18%, white);
   border-color: color-mix(in srgb, var(--color-accent) 50%, white);
 }
 
-.review-form-star:disabled {
+.reviewFormStar:disabled {
   opacity: 0.7;
   cursor: not-allowed;
   transform: none;
 }
 
-.review-form-star-icon {
+.reviewFormStarIcon {
   display: block;
   width: 18px;
   height: 18px;
 }
 
-.review-form-star-icon svg {
+.reviewFormStarIcon svg {
   width: 100%;
   height: 100%;
   display: block;
 }
 
-.review-form-textarea {
+.reviewFormTextarea {
   min-height: 140px;
   resize: vertical;
 }
 
-.review-form-actions {
+.reviewFormActions {
   display: flex;
   align-items: center;
   justify-content: flex-end;
   gap: 12px;
 }
 
-.review-form-cancel,
-.review-form-submit {
+.reviewFormActions :global(.review-form-cancel),
+.reviewFormActions :global(.review-form-submit) {
   min-height: 44px;
 }

@@ -1,4 +1,4 @@
-.empty-state {
+.emptyState {
   display: grid;
   gap: 10px;
   padding: clamp(20px, 3vw, 28px);
@@ -8,12 +8,12 @@
   box-shadow: 0 10px 24px rgba(31, 47, 61, 0.04);
 }
 
-.empty-state h2 {
+.emptyState h2 {
   font-family: var(--font-display);
   font-size: clamp(1.25rem, 3vw, 1.6rem);
   color: var(--color-primary);
 }
 
-.empty-state-action {
+.emptyStateAction {
   margin-top: 6px;
 }

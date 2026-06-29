@@ -1,4 +1,4 @@
-import './SecondaryButton.css'
+import styles from './SecondaryButton.module.css'
 
 export default function SecondaryButton({
   children,
@@ -7,7 +7,7 @@ export default function SecondaryButton({
   disabled = false,
   className = '',
 }) {
-  const resolvedClassName = ['secondary-button', className]
+  const resolvedClassName = ['secondary-button', styles.secondaryButton, className]
     .filter(Boolean)
     .join(' ')
 

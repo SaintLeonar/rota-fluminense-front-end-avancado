@@ -1,4 +1,4 @@
-.app-root {
+.appRoot {
   min-height: 100vh;
   display: grid;
   place-items: center;
@@ -7,8 +7,8 @@
   overflow: hidden;
 }
 
-.app-root::before,
-.app-root::after {
+.appRoot::before,
+.appRoot::after {
   content: "";
   position: absolute;
   border-radius: 999px;
@@ -16,7 +16,7 @@
   pointer-events: none;
 }
 
-.app-root::before {
+.appRoot::before {
   top: 10%;
   left: -120px;
   width: 280px;
@@ -24,7 +24,7 @@
   background: rgba(42, 111, 119, 0.12);
 }
 
-.app-root::after {
+.appRoot::after {
   right: -90px;
   bottom: 8%;
   width: 240px;
@@ -32,7 +32,7 @@
   background: rgba(241, 164, 105, 0.14);
 }
 
-.app-shell {
+.appShell {
   position: relative;
   z-index: 1;
   width: min(var(--content-max), 100%);
@@ -44,13 +44,13 @@
 }
 
 @media (min-width: 768px) and (max-width: 1365px) {
-  .app-root::before {
+  .appRoot::before {
     left: -80px;
     width: 240px;
     height: 240px;
   }
 
-  .app-root::after {
+  .appRoot::after {
     right: -70px;
     width: 220px;
     height: 220px;
@@ -58,18 +58,18 @@
 }
 
 @media (max-width: 767px) {
-  .app-shell {
+  .appShell {
     border-radius: var(--radius-card-sm);
   }
 
-  .app-root::before {
+  .appRoot::before {
     top: 6%;
     left: -140px;
     width: 220px;
     height: 220px;
   }
 
-  .app-root::after {
+  .appRoot::after {
     right: -110px;
     bottom: 4%;
     width: 200px;
@@ -78,7 +78,7 @@
 }
 
 @media (min-width: 1366px) {
-  .app-shell {
+  .appShell {
     backdrop-filter: blur(10px);
   }
 }

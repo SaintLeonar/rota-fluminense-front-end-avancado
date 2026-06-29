@@ -1,4 +1,4 @@
-.rating-badge {
+.ratingBadge {
   width: fit-content;
   display: inline-flex;
   align-items: center;
@@ -14,14 +14,14 @@
   font-weight: 700;
 }
 
-.rating-badge-star {
+.ratingBadgeStar {
   width: 14px;
   height: 14px;
   color: var(--color-accent);
   line-height: 1;
 }
 
-.rating-badge-star svg {
+.ratingBadgeStar svg {
   width: 100%;
   height: 100%;
   display: block;

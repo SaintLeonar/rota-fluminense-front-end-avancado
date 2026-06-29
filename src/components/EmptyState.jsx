@@ -1,4 +1,4 @@
-import './EmptyState.css'
+import styles from './EmptyState.module.css'
 
 export default function EmptyState({
   title = 'Nada para mostrar por aqui',
@@ -6,12 +6,16 @@ export default function EmptyState({
   action = null,
 }) {
   return (
-    <section className="empty-state" aria-live="polite">
+    <section className={['empty-state', styles.emptyState].join(' ')} aria-live="polite">
       <h2>{title}</h2>
 
       {description ? <p className="support-copy">{description}</p> : null}
 
-      {action ? <div className="empty-state-action">{action}</div> : null}
+      {action ? (
+        <div className={['empty-state-action', styles.emptyStateAction].join(' ')}>
+          {action}
+        </div>
+      ) : null}
     </section>
   )
 }

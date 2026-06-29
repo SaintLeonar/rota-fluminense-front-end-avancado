@@ -1,4 +1,4 @@
-.loading-state {
+.loadingState {
   display: grid;
   gap: 18px;
   padding: clamp(20px, 3vw, 28px);
@@ -8,12 +8,12 @@
   box-shadow: var(--shadow-card);
 }
 
-.loading-state-dots {
+.loadingStateDots {
   display: inline-flex;
   gap: 10px;
 }
 
-.loading-state-dots span {
+.loadingStateDots span {
   width: 12px;
   height: 12px;
   border-radius: 999px;
@@ -21,20 +21,20 @@
   animation: loading-bounce 1.2s ease-in-out infinite;
 }
 
-.loading-state-dots span:nth-child(2) {
+.loadingStateDots span:nth-child(2) {
   animation-delay: 0.15s;
 }
 
-.loading-state-dots span:nth-child(3) {
+.loadingStateDots span:nth-child(3) {
   animation-delay: 0.3s;
 }
 
-.loading-state-copy {
+.loadingStateCopy {
   display: grid;
   gap: 8px;
 }
 
-.loading-state-copy h2 {
+.loadingStateCopy h2 {
   font-family: var(--font-display);
   font-size: clamp(1.25rem, 3vw, 1.6rem);
   color: var(--color-primary);

@@ -1,4 +1,4 @@
-import './PageContainer.css'
+import styles from './PageContainer.module.css'
 import BrandHeader from './BrandHeader'
 
 export default function PageContainer({
@@ -10,8 +10,10 @@ export default function PageContainer({
   shellClassName = '',
   showUserPanel = true,
 }) {
-  const resolvedRootClassName = ['app-root', rootClassName].filter(Boolean).join(' ')
-  const resolvedShellClassName = ['app-shell', shellClassName]
+  const resolvedRootClassName = ['app-root', styles.appRoot, rootClassName]
+    .filter(Boolean)
+    .join(' ')
+  const resolvedShellClassName = ['app-shell', styles.appShell, shellClassName]
     .filter(Boolean)
     .join(' ')
 

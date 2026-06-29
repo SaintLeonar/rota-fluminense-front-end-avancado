@@ -1,4 +1,4 @@
-import './ReviewCard.css'
+import styles from './ReviewCard.module.css'
 
 function formatReviewDate(dateString) {
   const date = new Date(`${dateString}T12:00:00`)
@@ -20,11 +20,15 @@ export default function ReviewCard({ review }) {
   const stars = Array.from({ length: 5 }, (_, index) => index + 1)
 
   return (
-    <article className="review-card">
-      <div className="review-card-top">
-        <div className="review-card-meta">
-          <h3 className="review-card-author">{review.autor}</h3>
-          <p className="review-card-date">{formatReviewDate(review.data)}</p>
+    <article className={['review-card', styles.reviewCard].join(' ')}>
+      <div className={['review-card-top', styles.reviewCardTop].join(' ')}>
+        <div className={['review-card-meta', styles.reviewCardMeta].join(' ')}>
+          <h3 className={['review-card-author', styles.reviewCardAuthor].join(' ')}>
+            {review.autor}
+          </h3>
+          <p className={['review-card-date', styles.reviewCardDate].join(' ')}>
+            {formatReviewDate(review.data)}
+          </p>
         </div>
 
         {/*
@@ -48,18 +52,26 @@ export default function ReviewCard({ review }) {
       </div>
 
       {review.assinatura ? (
-        <p className="review-card-signature">{review.assinatura}</p>
+        <p className={['review-card-signature', styles.reviewCardSignature].join(' ')}>
+          {review.assinatura}
+        </p>
       ) : null}
 
-      <div className="review-card-stars" aria-label={`Nota ${review.nota}`}>
+      <div
+        className={['review-card-stars', styles.reviewCardStars].join(' ')}
+        aria-label={`Nota ${review.nota}`}
+      >
         {stars.map((star) => (
           <span
             key={star}
-            className={
-              star <= Number(review.nota)
-                ? 'review-card-star is-active'
-                : 'review-card-star'
-            }
+            className={[
+              'review-card-star',
+              styles.reviewCardStar,
+              star <= Number(review.nota) ? 'is-active' : '',
+              star <= Number(review.nota) ? styles.isActive : '',
+            ]
+              .filter(Boolean)
+              .join(' ')}
             aria-hidden="true"
           >
             <svg viewBox="0 0 24 24" focusable="false">
@@ -72,7 +84,9 @@ export default function ReviewCard({ review }) {
         ))}
       </div>
 
-      <p className="review-card-comment">{review.comentario}</p>
+      <p className={['review-card-comment', styles.reviewCardComment].join(' ')}>
+        {review.comentario}
+      </p>
     </article>
   )
 }

@@ -1,25 +1,24 @@
-.primary-button {
+.secondaryButton {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
   padding: 14px 18px;
-  border: 0;
+  border: 1px solid var(--color-border);
   border-radius: var(--radius-pill);
-  background: var(--color-primary);
-  color: var(--color-surface-strong);
-  box-shadow: var(--shadow-card);
+  background: transparent;
+  color: var(--color-primary);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
   cursor: pointer;
   font: inherit;
   white-space: nowrap;
 }
 
-.primary-button:hover {
+.secondaryButton:hover {
   transform: translateY(-1px);
 }
 
-.primary-button:disabled {
+.secondaryButton:disabled {
   opacity: 0.7;
   cursor: not-allowed;
   transform: none;

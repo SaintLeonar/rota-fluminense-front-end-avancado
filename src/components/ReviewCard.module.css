@@ -1,4 +1,4 @@
-.review-card {
+.reviewCard {
   display: grid;
   gap: 12px;
   padding: 20px;
@@ -8,60 +8,60 @@
   box-shadow: var(--shadow-card);
 }
 
-.review-card-top {
+.reviewCardTop {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
   gap: 12px;
 }
 
-.review-card-meta {
+.reviewCardMeta {
   display: grid;
   gap: 4px;
 }
 
-.review-card-author {
+.reviewCardAuthor {
   color: var(--color-primary);
   font-size: 1rem;
 }
 
-.review-card-signature,
-.review-card-date,
-.review-card-comment {
+.reviewCardSignature,
+.reviewCardDate,
+.reviewCardComment {
   color: var(--color-text-soft);
 }
 
-.review-card-date {
+.reviewCardDate {
   font-size: 0.92rem;
 }
 
-.review-card-stars {
+.reviewCardStars {
   display: inline-flex;
   gap: 6px;
 }
 
-.review-card-star {
+.reviewCardStar {
   width: 18px;
   height: 18px;
   color: var(--color-border);
 }
 
-.review-card-star.is-active {
+.reviewCardStar.isActive {
   color: var(--color-accent);
 }
 
-.review-card-star svg {
+.reviewCardStar svg {
   width: 100%;
   height: 100%;
   display: block;
 }
 
-.review-card-comment {
+.reviewCardComment {
   line-height: 1.7;
 }
 
 @media (max-width: 767px) {
-  .review-card-top {
+  .reviewCardTop {
     flex-direction: column;
     align-items: flex-start;
   }
