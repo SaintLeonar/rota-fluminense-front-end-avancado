@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom'
 
+import './Locais.css'
 import CategoryPills from '../components/CategoryPills'
 import EmptyState from '../components/EmptyState'
 import FeedbackAlert from '../components/FeedbackAlert'

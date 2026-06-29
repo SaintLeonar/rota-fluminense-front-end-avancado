@@ -1,3 +1,5 @@
+import './LoadingState.css'
+
 export default function LoadingState({
   title = 'Carregando conteudo',
   description = 'Estamos preparando as informacoes para voce.',

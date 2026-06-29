@@ -1,3 +1,4 @@
+import './LocalCard.css'
 import RatingBadge from './RatingBadge'
 
 export default function LocalCard({ local, onSelect }) {

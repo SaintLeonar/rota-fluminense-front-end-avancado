@@ -1,5 +1,6 @@
 import { useParams } from 'react-router-dom'
 
+import './DetalheLocal.css'
 import BackButton from '../components/BackButton'
 import EmptyState from '../components/EmptyState'
 import FeedbackAlert from '../components/FeedbackAlert'

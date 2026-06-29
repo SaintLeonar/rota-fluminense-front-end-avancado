@@ -1,0 +1,286 @@
+.app-root.home-root::before {
+  top: auto;
+  left: -120px;
+  bottom: -90px;
+  width: 360px;
+  height: 360px;
+  background: rgba(92, 189, 185, 0.24);
+  filter: blur(28px);
+}
+
+.app-root.home-root::after {
+  top: 4%;
+  right: -70px;
+  bottom: auto;
+  width: 340px;
+  height: 340px;
+  background: rgba(240, 165, 58, 0.18);
+  filter: blur(28px);
+}
+
+.home-layout {
+  display: grid;
+  justify-items: center;
+  gap: 18px;
+}
+
+.app-shell.home-shell {
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  text-align: center;
+}
+
+.home-hero-copy {
+  width: min(100%, 760px);
+  margin-inline: auto;
+  display: grid;
+  justify-items: center;
+  text-align: center;
+}
+
+.app-shell.home-shell .home-hero-copy h1,
+.app-shell.home-shell .home-hero-copy .brand-subtitle {
+  text-align: center;
+  margin-inline: auto;
+}
+
+.home-title-accent {
+  color: #2d8a9e;
+}
+
+.home-title-line {
+  display: block;
+  white-space: nowrap;
+}
+
+.home-entry-card {
+  width: min(100%, 526px);
+  display: grid;
+  gap: 16px;
+  padding: 22px 22px 24px;
+  border-radius: 28px;
+  background: rgba(255, 255, 255, 0.96);
+  border: 1px solid rgba(216, 209, 194, 0.52);
+  box-shadow: 0 14px 30px rgba(12, 35, 64, 0.08);
+  text-align: left;
+}
+
+.home-card-copy {
+  display: grid;
+  gap: 4px;
+  text-align: left;
+}
+
+.home-card-copy h2 {
+  font-family: var(--font-display);
+  font-size: clamp(1.45rem, 2vw, 1.9rem);
+  color: #0c2340;
+  letter-spacing: -0.02em;
+}
+
+.home-card-copy .support-copy {
+  font-size: 0.95rem;
+  color: #6c7d91;
+}
+
+.home-form-row {
+  width: 100%;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 126px;
+  gap: 10px;
+  align-items: center;
+}
+
+.field-input.home-name-input {
+  min-height: 54px;
+  padding: 0 18px;
+  border: 2px solid #39a1b4;
+  border-radius: 999px;
+  background: #f5efe3;
+  box-shadow: none;
+  color: #1a4a6e;
+}
+
+.primary-button.home-submit-button {
+  min-height: 54px;
+  padding: 0 20px;
+  background: var(--color-primary);
+  color: #ffffff;
+  box-shadow: none;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.primary-button.home-submit-button:hover {
+  background: #18324f;
+}
+
+.home-submit-arrow {
+  font-size: 1.05em;
+  line-height: 1;
+}
+
+.home-direct-access {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #7b8897;
+  font-size: 0.92rem;
+}
+
+.home-direct-link {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #2d8a9e;
+  font-weight: 700;
+  box-shadow: none;
+  cursor: pointer;
+}
+
+.home-direct-link:hover {
+  transform: none;
+  text-decoration: underline;
+}
+
+@media (min-width: 768px) and (max-width: 1365px) {
+  .app-root.home-root::before {
+    left: -90px;
+    bottom: -80px;
+    width: 300px;
+    height: 300px;
+  }
+
+  .app-root.home-root::after {
+    top: 5%;
+    right: -40px;
+    width: 280px;
+    height: 280px;
+  }
+
+  .app-shell.home-shell {
+    width: min(640px, 100%);
+    padding: 72px 20px 34px;
+  }
+
+  .app-shell.home-shell .home-hero-copy h1 {
+    width: fit-content;
+    max-width: 100%;
+    margin-bottom: 14px;
+    font-size: clamp(3.6rem, 8vw, 4.4rem);
+    line-height: 0.95;
+    letter-spacing: -0.04em;
+  }
+
+  .app-shell.home-shell .home-hero-copy .brand-subtitle {
+    width: 100%;
+    max-width: 42ch;
+    margin-bottom: 34px;
+    font-size: 0.98rem;
+    justify-self: center;
+  }
+
+  .home-entry-card {
+    width: min(100%, 560px);
+    padding: 24px 28px 26px;
+  }
+}
+
+@media (max-width: 767px) {
+  .app-shell.home-shell {
+    width: 100%;
+    padding: 28px 20px 32px;
+  }
+
+  .app-root.home-root::before {
+    left: -120px;
+    bottom: -70px;
+    width: 260px;
+    height: 260px;
+  }
+
+  .app-root.home-root::after {
+    top: 8%;
+    right: -80px;
+    width: 240px;
+    height: 240px;
+  }
+
+  .app-shell.home-shell .home-hero-copy h1 {
+    width: fit-content;
+    max-width: 100%;
+    margin-bottom: 14px;
+    font-size: clamp(2.25rem, 10.2vw, 3.95rem);
+    line-height: 1;
+  }
+
+  .app-shell.home-shell .home-hero-copy .brand-subtitle {
+    width: 100%;
+    max-width: 30ch;
+    margin-bottom: 36px;
+    font-size: 1rem;
+  }
+
+  .home-entry-card {
+    width: 100%;
+    max-width: 530px;
+    padding: 20px 18px 22px;
+    border-radius: 24px;
+  }
+
+  .home-card-copy h2 {
+    font-size: 1.3rem;
+  }
+
+  .home-form-row {
+    grid-template-columns: minmax(0, 1fr) 116px;
+  }
+
+  .primary-button.home-submit-button {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .home-direct-access {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}
+
+@media (min-width: 1366px) {
+  .app-shell.home-shell {
+    width: min(680px, 100%);
+    padding: 84px 24px 42px;
+  }
+
+  .app-shell.home-shell .home-hero-copy h1 {
+    width: fit-content;
+    max-width: 100%;
+    margin-bottom: 16px;
+    font-size: clamp(4.2rem, 5.8vw, 4.9rem);
+    line-height: 0.94;
+    letter-spacing: -0.05em;
+  }
+
+  .app-shell.home-shell .home-hero-copy .brand-subtitle {
+    width: 100%;
+    max-width: 42ch;
+    margin-bottom: 34px;
+    font-size: 1.04rem;
+  }
+
+  .home-entry-card {
+    padding: 22px 22px 24px;
+  }
+}
+
+@media (max-width: 420px) {
+  .app-shell.home-shell .home-hero-copy h1 {
+    font-size: clamp(1.95rem, 9.6vw, 2.65rem);
+    line-height: 0.98;
+  }
+}

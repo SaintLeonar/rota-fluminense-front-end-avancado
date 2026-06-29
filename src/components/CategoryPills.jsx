@@ -1,3 +1,5 @@
+import './CategoryPills.css'
+
 export default function CategoryPills({ categories, activeCategory, onSelect }) {
   return (
     <div className="category-pills" aria-label="Filtros por categoria">

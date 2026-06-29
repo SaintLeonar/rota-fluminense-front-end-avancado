@@ -1,3 +1,5 @@
+import './EmptyState.css'
+
 export default function EmptyState({
   title = 'Nada para mostrar por aqui',
   description,

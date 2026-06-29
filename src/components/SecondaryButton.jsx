@@ -1,3 +1,5 @@
+import './SecondaryButton.css'
+
 export default function SecondaryButton({
   children,
   type = 'button',

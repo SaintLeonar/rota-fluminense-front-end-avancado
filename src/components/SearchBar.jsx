@@ -1,3 +1,5 @@
+import './SearchBar.css'
+
 export default function SearchBar({
   label = 'Buscar locais',
   placeholder = 'Onde vamos hoje?',

@@ -1,0 +1,36 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+}
+
+body {
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at 12% 14%, rgba(42, 111, 119, 0.18), transparent 24%),
+    radial-gradient(circle at 88% 12%, rgba(241, 164, 105, 0.16), transparent 22%),
+    radial-gradient(circle at 50% 100%, rgba(31, 58, 95, 0.08), transparent 28%),
+    linear-gradient(180deg, var(--color-bg) 0%, var(--color-bg-soft) 54%, var(--color-bg-deep) 100%);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  line-height: 1.5;
+}
+
+button,
+input,
+textarea {
+  font: inherit;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+#root {
+  min-height: 100vh;
+}

@@ -1,0 +1,118 @@
+.review-form {
+  display: grid;
+  gap: 18px;
+  padding: clamp(20px, 3vw, 28px);
+  border: 1px solid var(--color-border-soft);
+  border-radius: var(--radius-card);
+  background: color-mix(in srgb, var(--color-surface) 96%, white);
+  box-shadow: var(--shadow-card);
+}
+
+.review-form-title {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--color-primary);
+}
+
+.review-form-field {
+  display: grid;
+  gap: 10px;
+}
+
+.review-form-label {
+  color: var(--color-primary);
+  font-size: 0.94rem;
+  font-weight: 700;
+}
+
+.review-form-input {
+  width: 100%;
+  padding: 14px 16px;
+  border: 1px solid var(--color-border);
+  border-radius: 16px;
+  background: var(--color-surface-strong);
+  color: var(--color-text);
+  font: inherit;
+}
+
+.review-form-input:focus {
+  outline: 2px solid color-mix(in srgb, var(--color-secondary) 35%, white);
+  border-color: var(--color-secondary);
+}
+
+.review-form-rating {
+  display: grid;
+  gap: 12px;
+  padding: 0;
+  border: 0;
+}
+
+.review-form-stars {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.review-form-star {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  background: var(--color-surface-strong);
+  color: var(--color-primary);
+  transition:
+    transform 0.2s ease,
+    border-color 0.2s ease,
+    background 0.2s ease;
+  cursor: pointer;
+  font: inherit;
+}
+
+.review-form-star:hover {
+  transform: translateY(-1px);
+  border-color: var(--color-accent);
+}
+
+.review-form-star.is-active {
+  background: color-mix(in srgb, var(--color-accent) 18%, white);
+  border-color: color-mix(in srgb, var(--color-accent) 50%, white);
+}
+
+.review-form-star:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.review-form-star-icon {
+  display: block;
+  width: 18px;
+  height: 18px;
+}
+
+.review-form-star-icon svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.review-form-textarea {
+  min-height: 140px;
+  resize: vertical;
+}
+
+.review-form-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.review-form-cancel,
+.review-form-submit {
+  min-height: 44px;
+}

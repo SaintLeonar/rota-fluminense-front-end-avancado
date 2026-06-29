@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom'
 
+import './BrandHeader.css'
 import { useStoredTravelerName } from '../hooks/useStoredTravelerName'
 
 export default function BrandHeader({
@@ -28,7 +29,7 @@ export default function BrandHeader({
       {hasMainContent ? (
         <div className="brand-header-main">
           {eyebrow ? <p className="eyebrow">{eyebrow}</p> : null}
-          {title ? <h1>{title}</h1> : null}
+          {title ? <h1 className="brand-title">{title}</h1> : null}
           {subtitle ? <p className="brand-subtitle">{subtitle}</p> : null}
         </div>
       ) : null}

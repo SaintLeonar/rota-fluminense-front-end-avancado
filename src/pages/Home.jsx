@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom'
 
+import './Home.css'
 import { useStoredTravelerName } from '../hooks/useStoredTravelerName'
 import PageContainer from '../components/PageContainer'
 import PrimaryButton from '../components/PrimaryButton'

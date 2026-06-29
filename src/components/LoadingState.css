@@ -1,0 +1,41 @@
+.loading-state {
+  display: grid;
+  gap: 18px;
+  padding: clamp(20px, 3vw, 28px);
+  border: 1px solid var(--color-border-soft);
+  border-radius: var(--radius-card);
+  background: color-mix(in srgb, var(--color-surface) 96%, white);
+  box-shadow: var(--shadow-card);
+}
+
+.loading-state-dots {
+  display: inline-flex;
+  gap: 10px;
+}
+
+.loading-state-dots span {
+  width: 12px;
+  height: 12px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--color-secondary) 70%, white);
+  animation: loading-bounce 1.2s ease-in-out infinite;
+}
+
+.loading-state-dots span:nth-child(2) {
+  animation-delay: 0.15s;
+}
+
+.loading-state-dots span:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+.loading-state-copy {
+  display: grid;
+  gap: 8px;
+}
+
+.loading-state-copy h2 {
+  font-family: var(--font-display);
+  font-size: clamp(1.25rem, 3vw, 1.6rem);
+  color: var(--color-primary);
+}

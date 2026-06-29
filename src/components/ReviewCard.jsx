@@ -1,3 +1,5 @@
+import './ReviewCard.css'
+
 function formatReviewDate(dateString) {
   const date = new Date(`${dateString}T12:00:00`)
 

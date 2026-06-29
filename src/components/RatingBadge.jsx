@@ -1,3 +1,5 @@
+import './RatingBadge.css'
+
 export default function RatingBadge({ rating }) {
   return (
     <span className="rating-badge" aria-label={`Nota ${rating}`}>

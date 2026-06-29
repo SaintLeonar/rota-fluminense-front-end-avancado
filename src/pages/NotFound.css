@@ -1,0 +1,229 @@
+.notfound-root {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: clamp(20px, 4vw, 40px);
+  background:
+    radial-gradient(circle at 18% 18%, rgba(146, 220, 219, 0.24), transparent 22%),
+    radial-gradient(circle at 90% 88%, rgba(245, 187, 118, 0.26), transparent 22%),
+    linear-gradient(180deg, #f4eedf 0%, #f3ecdd 100%);
+}
+
+.notfound-stage {
+  width: min(100%, 1020px);
+  min-height: min(74vh, 760px);
+  display: grid;
+  place-items: center;
+}
+
+.notfound-card {
+  width: min(100%, 364px);
+  display: grid;
+  justify-items: center;
+  gap: 18px;
+  padding: 38px 28px 30px;
+  border-radius: 34px;
+  background: rgba(255, 255, 255, 0.97);
+  box-shadow: 0 18px 36px rgba(31, 47, 61, 0.12);
+  text-align: center;
+}
+
+.notfound-badge {
+  padding: 8px 18px;
+  border-radius: 999px;
+  background: #f3ecde;
+  color: #738395;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+}
+
+.notfound-title {
+  font-family: var(--font-display);
+  font-size: clamp(4.2rem, 10vw, 5.9rem);
+  line-height: 0.86;
+  letter-spacing: -0.06em;
+  color: #082a52;
+}
+
+.notfound-subtitle {
+  max-width: 13ch;
+  font-family: var(--font-display);
+  font-size: clamp(1.9rem, 4vw, 2.6rem);
+  line-height: 1.08;
+  letter-spacing: -0.04em;
+  color: #082a52;
+}
+
+.notfound-copy {
+  max-width: 29ch;
+  color: #738395;
+  font-size: 1rem;
+  line-height: 1.45;
+}
+
+.notfound-actions {
+  width: 100%;
+  display: grid;
+  gap: 14px;
+  justify-items: center;
+}
+
+.notfound-actions .notfound-primary-button,
+.notfound-actions .notfound-secondary-button {
+  width: fit-content;
+  max-width: 100%;
+  min-height: 54px;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-weight: 700;
+  box-shadow: none;
+  letter-spacing: -0.01em;
+  padding-inline: 22px;
+}
+
+.primary-button.notfound-primary-button {
+  background: #082a52;
+  color: #f5e9d2;
+}
+
+.secondary-button.notfound-secondary-button {
+  background: #efe5d5;
+  border-color: #e1d4bf;
+  color: #0b2f58;
+}
+
+@media (min-width: 768px) and (max-width: 1365px) {
+  .notfound-stage {
+    min-height: 86vh;
+  }
+
+  .notfound-card {
+    width: min(100%, 600px);
+    gap: 14px;
+    padding: 44px 40px 34px;
+  }
+
+  .notfound-subtitle {
+    max-width: none;
+    font-size: clamp(1.65rem, 3vw, 2rem);
+  }
+
+  .notfound-copy {
+    max-width: 50ch;
+    font-size: 1.05rem;
+    line-height: 1.55;
+  }
+
+  .notfound-actions {
+    width: auto;
+    grid-template-columns: repeat(2, auto);
+    justify-content: center;
+    gap: 10px;
+  }
+
+  .notfound-actions .notfound-primary-button,
+  .notfound-actions .notfound-secondary-button {
+    width: fit-content;
+    min-width: 0;
+    min-height: 52px;
+    padding-inline: 22px;
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 767px) {
+  .notfound-root {
+    padding: 18px;
+  }
+
+  .notfound-stage {
+    width: 100%;
+    min-height: calc(100vh - 36px);
+  }
+
+  .notfound-card {
+    width: min(100%, 520px);
+    gap: 20px;
+    padding: 34px 30px 30px;
+    border-radius: 36px;
+  }
+
+  .notfound-title {
+    font-size: clamp(4.6rem, 20vw, 5.8rem);
+  }
+
+  .notfound-subtitle {
+    max-width: 12ch;
+    font-size: 1.78rem;
+    line-height: 1.15;
+  }
+
+  .notfound-copy {
+    max-width: 30ch;
+    font-size: 1.02rem;
+    line-height: 1.58;
+  }
+
+  .notfound-actions {
+    gap: 12px;
+  }
+
+  .notfound-actions .notfound-primary-button,
+  .notfound-actions .notfound-secondary-button {
+    width: fit-content;
+    max-width: min(100%, 280px);
+    min-height: 66px;
+    padding-inline: 24px;
+    font-size: 1rem;
+  }
+}
+
+@media (min-width: 1366px) {
+  .notfound-stage {
+    min-height: 76vh;
+  }
+
+  .notfound-card {
+    width: min(100%, 680px);
+    gap: 16px;
+    padding: 46px 44px 38px;
+    border-radius: 28px;
+  }
+
+  .notfound-badge {
+    padding: 7px 16px;
+    font-size: 0.76rem;
+  }
+
+  .notfound-title {
+    font-size: 5.5rem;
+  }
+
+  .notfound-subtitle {
+    max-width: none;
+    font-size: 1.82rem;
+  }
+
+  .notfound-copy {
+    max-width: 50ch;
+    font-size: 1.1rem;
+    line-height: 1.55;
+  }
+
+  .notfound-actions {
+    width: auto;
+    grid-template-columns: repeat(2, auto);
+    justify-content: center;
+    gap: 12px;
+  }
+
+  .notfound-actions .notfound-primary-button,
+  .notfound-actions .notfound-secondary-button {
+    width: fit-content;
+    min-width: 0;
+    min-height: 52px;
+    padding-inline: 22px;
+    font-size: 1rem;
+  }
+}

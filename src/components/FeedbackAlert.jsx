@@ -1,3 +1,5 @@
+import './FeedbackAlert.css'
+
 const variantLabels = {
   success: 'Sucesso',
   error: 'Erro',

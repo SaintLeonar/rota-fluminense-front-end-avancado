@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom'
 
+import './NotFound.css'
 import PrimaryButton from '../components/PrimaryButton'
 import SecondaryButton from '../components/SecondaryButton'
 
