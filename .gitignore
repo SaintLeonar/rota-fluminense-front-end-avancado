@@ -25,6 +25,7 @@ dist-ssr
 
 # Documentation artifacts
 docs/codex/
+docs/requisitos-front-end-avancado.pdf
 
 # Temporary artifacts
 tmp/pdf/
