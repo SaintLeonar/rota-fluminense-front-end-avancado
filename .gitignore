@@ -27,4 +27,4 @@ dist-ssr
 docs/codex/
 
 # Temporary artifacts
-tmp/pdf/
+tmp/pdf/*
