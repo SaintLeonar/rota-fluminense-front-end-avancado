@@ -1,16 +1,45 @@
-# React + Vite
+# Rota Fluminense
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Rota Fluminense é um MVP front-end desenvolvido com React e Vite para apresentar pontos turisticos do Rio de Janeiro de forma visual, leve e responsiva. A aplicacao permite personalizar a experiencia com o nome do viajante, explorar locais por busca e categoria, abrir a pagina de detalhe de cada destino e registrar avaliações.
 
-Currently, two official plugins are available:
+## Pre-requisitos
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+Antes de comecar, garanta que o ambiente local tenha:
 
-## React Compiler
+- Node.js na versao `24.16.x`
+- npm instalado
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Instalacao
 
-## Expanding the ESLint configuration
+### 1. Obtenha o codigo do projeto
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+Se o projeto ainda nao estiver na sua maquina, clone ou baixe o repositorio. Depois, acesse a pasta do projeto:
+
+```bash
+git clone <url-do-repositorio>
+cd rota-fluminense-front-end-avancado
+```
+
+### 2. Instale as dependencias
+
+No diretorio do projeto, execute:
+
+```bash
+npm install
+```
+
+### 3. Inicie o ambiente de desenvolvimento
+
+Apos instalar as dependencias, rode:
+
+```bash
+npm run dev
+```
+
+O Vite exibirá no terminal o endereço local da aplicação, normalmente algo como:
+
+```bash
+http://localhost:5173
+```
+
+Abra esse endereco no navegador para visualizar o projeto.
