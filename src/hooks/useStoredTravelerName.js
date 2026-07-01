@@ -1,9 +1,21 @@
 import { useState } from 'react'
 
 const STORAGE_KEY = 'rota-fluminense-user-name'
+export const MAX_TRAVELER_NAME_LENGTH = 32
+
+function sanitizeTravelerNameInput(value) {
+  return value
+    .replace(/[^\p{L}\s]/gu, '')
+    .replace(/\s+/g, ' ')
+    .toLocaleLowerCase('pt-BR')
+    .replace(/(^|\s)(\p{L})/gu, (match, leading, letter) => (
+      leading + letter.toLocaleUpperCase('pt-BR')
+    ))
+    .slice(0, MAX_TRAVELER_NAME_LENGTH)
+}
 
 function normalizeTravelerName(value) {
-  return value.trim()
+  return sanitizeTravelerNameInput(value).trim()
 }
 
 export function readStoredTravelerName() {
@@ -41,6 +53,10 @@ export function clearStoredTravelerName() {
 export function useStoredTravelerName() {
   const [userName, setUserName] = useState(() => readStoredTravelerName())
 
+  function updateUserName(value) {
+    setUserName(sanitizeTravelerNameInput(value))
+  }
+
   function persistUserName(value = userName) {
     const normalizedValue = normalizeTravelerName(value)
     saveStoredTravelerName(normalizedValue)
@@ -55,7 +71,7 @@ export function useStoredTravelerName() {
 
   return {
     userName,
-    setUserName,
+    setUserName: updateUserName,
     persistUserName,
     clearUserName,
   }

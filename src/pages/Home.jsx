@@ -1,7 +1,10 @@
 import { useNavigate } from 'react-router-dom'
 
 import './Home.css'
-import { useStoredTravelerName } from '../hooks/useStoredTravelerName'
+import {
+  MAX_TRAVELER_NAME_LENGTH,
+  useStoredTravelerName,
+} from '../hooks/useStoredTravelerName'
 import PageContainer from '../components/PageContainer'
 import PrimaryButton from '../components/PrimaryButton'
 
@@ -63,6 +66,9 @@ export default function Home() {
               name="userName"
               placeholder="Seu nome"
               autoComplete="given-name"
+              autoCapitalize="words"
+              spellCheck={false}
+              maxLength={MAX_TRAVELER_NAME_LENGTH}
               value={userName}
               onChange={(event) => setUserName(event.target.value)}
             />
