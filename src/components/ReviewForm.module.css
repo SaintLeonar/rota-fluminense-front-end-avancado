@@ -112,6 +112,12 @@
   gap: 12px;
 }
 
+.reviewFormSubmitStack {
+  position: relative;
+  display: flex;
+  flex: 0 0 auto;
+}
+
 .reviewFormActions :global(.review-form-cancel),
 .reviewFormActions :global(.review-form-submit) {
   min-height: 44px;

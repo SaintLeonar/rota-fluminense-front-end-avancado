@@ -347,6 +347,11 @@
   color: #f8fbff;
 }
 
+.detail-page .review-form-input.is-invalid {
+  border-bottom-color: #ff7a8c;
+  box-shadow: inset 0 -1px 0 #ff7a8c;
+}
+
 .detail-page .review-form-input::placeholder {
   color: rgba(219, 228, 239, 0.44);
 }
@@ -354,6 +359,10 @@
 .detail-page .review-form-input:focus {
   outline: none;
   border-bottom-color: rgba(123, 208, 202, 0.78);
+}
+
+.detail-page .review-form-input.is-invalid:focus {
+  border-bottom-color: #ff7a8c;
 }
 
 .detail-page .review-form-textarea {

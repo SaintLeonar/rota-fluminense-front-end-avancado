@@ -58,6 +58,7 @@ export default function DetalheLocal() {
     isFormOpen,
     reviewValues,
     isSubmittingReview,
+    isReviewAuthorMissing,
     submitFeedback,
     totalReviews,
     averageRating,
@@ -155,6 +156,7 @@ export default function DetalheLocal() {
                 onChange={handleReviewChange}
                 onSubmit={handleReviewSubmit}
                 onCancel={handleCancelReviewForm}
+                isAuthorInvalid={isReviewAuthorMissing}
                 isSubmitting={isSubmittingReview}
               />
             ) : null}

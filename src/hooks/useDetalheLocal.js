@@ -12,6 +12,10 @@ function createInitialReviewValues() {
   }
 }
 
+function hasReviewAuthor(value) {
+  return value.trim().length > 0
+}
+
 export function useDetalheLocal(slug) {
   const [local, setLocal] = useState(null)
   const [avaliacoes, setAvaliacoes] = useState([])
@@ -21,6 +25,7 @@ export function useDetalheLocal(slug) {
   const [reviewValues, setReviewValues] = useState(() => createInitialReviewValues())
   const [isSubmittingReview, setIsSubmittingReview] = useState(false)
   const [submitFeedback, setSubmitFeedback] = useState(null)
+  const [isReviewAuthorMissing, setIsReviewAuthorMissing] = useState(false)
 
   useEffect(() => {
     let isMounted = true
@@ -74,16 +79,22 @@ export function useDetalheLocal(slug) {
       ...currentValues,
       [fieldName]: value,
     }))
+
+    if (fieldName === 'autor' && isReviewAuthorMissing) {
+      setIsReviewAuthorMissing(!hasReviewAuthor(value))
+    }
   }
 
   function handleOpenReviewForm() {
     setSubmitFeedback(null)
+    setIsReviewAuthorMissing(false)
     setIsFormOpen(true)
   }
 
   function handleCancelReviewForm() {
     setIsFormOpen(false)
     setSubmitFeedback(null)
+    setIsReviewAuthorMissing(false)
     setReviewValues(createInitialReviewValues())
   }
 
@@ -94,6 +105,14 @@ export function useDetalheLocal(slug) {
       return
     }
 
+    const normalizedAuthor = reviewValues.autor.trim()
+
+    if (!normalizedAuthor) {
+      setIsReviewAuthorMissing(true)
+      return
+    }
+
+    setIsReviewAuthorMissing(false)
     setIsSubmittingReview(true)
     setSubmitFeedback(null)
 
@@ -101,6 +120,7 @@ export function useDetalheLocal(slug) {
       const novaAvaliacao = await createAvaliacao({
         localId: local.id,
         ...reviewValues,
+        autor: normalizedAuthor,
         assinatura: '',
       })
 
@@ -135,6 +155,7 @@ export function useDetalheLocal(slug) {
     isFormOpen,
     reviewValues,
     isSubmittingReview,
+    isReviewAuthorMissing,
     submitFeedback,
     totalReviews,
     averageRating,

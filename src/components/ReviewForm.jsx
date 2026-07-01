@@ -1,6 +1,7 @@
 import PrimaryButton from './PrimaryButton'
 import styles from './ReviewForm.module.css'
 import SecondaryButton from './SecondaryButton'
+import ValidationBalloon from './ValidationBalloon'
 
 const ratingOptions = [1, 2, 3, 4, 5]
 
@@ -9,6 +10,7 @@ export default function ReviewForm({
   onChange,
   onSubmit,
   onCancel,
+  isAuthorInvalid = false,
   isSubmitting = false,
   className = '',
   title = 'Escrever uma nota',
@@ -23,7 +25,12 @@ export default function ReviewForm({
   }
 
   return (
-    <form className={resolvedClassName} onSubmit={onSubmit} autoComplete="off">
+    <form
+      className={resolvedClassName}
+      onSubmit={onSubmit}
+      autoComplete="off"
+      noValidate
+    >
       <h3 className={['review-form-title', styles.reviewFormTitle].join(' ')}>
         {title}
       </h3>
@@ -33,14 +40,20 @@ export default function ReviewForm({
           Seu nome
         </span>
         <input
-          className={['review-form-input', styles.reviewFormInput].join(' ')}
+          className={[
+            'review-form-input',
+            styles.reviewFormInput,
+            isAuthorInvalid ? 'is-invalid' : '',
+          ]
+            .filter(Boolean)
+            .join(' ')}
           type="text"
           name="autor"
           value={values.autor}
           onChange={handleFieldChange}
           placeholder="Como assinar?"
           autoComplete="off"
-          required
+          aria-invalid={isAuthorInvalid}
         />
       </label>
 
@@ -114,13 +127,22 @@ export default function ReviewForm({
           Cancelar
         </SecondaryButton>
 
-        <PrimaryButton
-          className="review-form-submit"
-          type="submit"
-          disabled={isSubmitting}
-        >
-          {isSubmitting ? 'Postando...' : 'Postar'}
-        </PrimaryButton>
+        <div className={['review-form-submit-stack', styles.reviewFormSubmitStack].join(' ')}>
+          {isAuthorInvalid ? (
+            <ValidationBalloon
+              align="end"
+              message="Informe seu nome antes de postar."
+            />
+          ) : null}
+
+          <PrimaryButton
+            className="review-form-submit"
+            type="submit"
+            disabled={isSubmitting}
+          >
+            {isSubmitting ? 'Postando...' : 'Postar'}
+          </PrimaryButton>
+        </div>
       </div>
     </form>
   )

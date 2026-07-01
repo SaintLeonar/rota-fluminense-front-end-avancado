@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import './Home.css'
@@ -7,10 +8,16 @@ import {
 } from '../hooks/useStoredTravelerName'
 import PageContainer from '../components/PageContainer'
 import PrimaryButton from '../components/PrimaryButton'
+import ValidationBalloon from '../components/ValidationBalloon'
+
+function hasTravelerName(value) {
+  return value.replace(/[^\p{L}\s]/gu, '').trim().length > 0
+}
 
 export default function Home() {
   // Hook registrado para apresentacao: hook customizado reaproveita e persiste o nome do viajante.
   const { userName, setUserName, persistUserName } = useStoredTravelerName()
+  const [isNameMissing, setIsNameMissing] = useState(false)
 
   // Hook registrado para apresentacao: useNavigate dispara a ida para /locais.
   const navigate = useNavigate()
@@ -18,6 +25,12 @@ export default function Home() {
   function handleEnter() {
     const normalizedUserName = persistUserName()
 
+    if (!normalizedUserName) {
+      setIsNameMissing(true)
+      return
+    }
+
+    setIsNameMissing(false)
     navigate('/locais', {
       state: { userName: normalizedUserName },
     })
@@ -26,6 +39,16 @@ export default function Home() {
   function handleSubmit(event) {
     event.preventDefault()
     handleEnter()
+  }
+
+  function handleUserNameChange(event) {
+    const nextValue = event.target.value
+
+    setUserName(nextValue)
+
+    if (isNameMissing) {
+      setIsNameMissing(!hasTravelerName(nextValue))
+    }
   }
 
   return (
@@ -51,7 +74,7 @@ export default function Home() {
           </p>
         </div>
 
-        <form className="home-entry-card" onSubmit={handleSubmit}>
+        <form className="home-entry-card" onSubmit={handleSubmit} noValidate>
           <div className="home-card-copy">
             <h2>Como se chama?</h2>
             <p className="support-copy">
@@ -61,7 +84,13 @@ export default function Home() {
 
           <div className="home-form-row">
             <input
-              className="field-input home-name-input"
+              className={[
+                'field-input',
+                'home-name-input',
+                isNameMissing ? 'is-invalid' : '',
+              ]
+                .filter(Boolean)
+                .join(' ')}
               type="text"
               name="userName"
               placeholder="Seu nome"
@@ -70,13 +99,23 @@ export default function Home() {
               spellCheck={false}
               maxLength={MAX_TRAVELER_NAME_LENGTH}
               value={userName}
-              onChange={(event) => setUserName(event.target.value)}
+              onChange={handleUserNameChange}
+              aria-invalid={isNameMissing}
             />
 
-            <PrimaryButton type="submit" className="home-submit-button">
-              <span>Entrar</span>
-              <span className="home-submit-arrow" aria-hidden="true">&rarr;</span>
-            </PrimaryButton>
+            <div className="home-submit-stack">
+              {isNameMissing ? (
+                <ValidationBalloon
+                  align="end"
+                  message="Escreva seu nome para entrar."
+                />
+              ) : null}
+
+              <PrimaryButton type="submit" className="home-submit-button">
+                <span>Entrar</span>
+                <span className="home-submit-arrow" aria-hidden="true">&rarr;</span>
+              </PrimaryButton>
+            </div>
           </div>
         </form>
 

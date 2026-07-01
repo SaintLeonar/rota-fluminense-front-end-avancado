@@ -102,6 +102,25 @@
   color: #1a4a6e;
 }
 
+.home-submit-stack {
+  position: relative;
+  display: flex;
+}
+
+.home-submit-stack .primary-button.home-submit-button {
+  width: 100%;
+}
+
+.field-input.home-name-input.is-invalid {
+  border-color: #d85b6c;
+  box-shadow: 0 0 0 1px rgba(216, 91, 108, 0.18);
+}
+
+.field-input.home-name-input.is-invalid:focus {
+  outline-color: rgba(216, 91, 108, 0.28);
+  border-color: #d85b6c;
+}
+
 .primary-button.home-submit-button {
   min-height: 54px;
   padding: 0 20px;
