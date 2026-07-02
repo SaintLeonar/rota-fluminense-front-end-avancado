@@ -51,11 +51,17 @@ export default function ReviewCard({ review }) {
         */}
       </div>
 
+      {/*
+        Assinatura temporariamente oculta:
+        o dado continua disponivel no JSON e pode ser reativado depois, se fizer sentido.
+      */}
+      {/*
       {review.assinatura ? (
         <p className={['review-card-signature', styles.reviewCardSignature].join(' ')}>
           {review.assinatura}
         </p>
       ) : null}
+      */}
 
       <div
         className={['review-card-stars', styles.reviewCardStars].join(' ')}
