@@ -21,6 +21,12 @@
   gap: 10px;
 }
 
+.reviewFormInputRow {
+  position: relative;
+  display: grid;
+  align-items: center;
+}
+
 .reviewFormLabel {
   color: var(--color-primary);
   font-size: 0.94rem;
@@ -29,12 +35,19 @@
 
 .reviewFormInput {
   width: 100%;
-  padding: 14px 16px;
+  padding: 14px 48px 14px 16px;
   border: 1px solid var(--color-border);
   border-radius: 16px;
   background: var(--color-surface-strong);
   color: var(--color-text);
   font: inherit;
+}
+
+.reviewFormInputHint {
+  position: absolute;
+  top: 50%;
+  right: 14px;
+  transform: translateY(-50%);
 }
 
 .reviewFormInput:focus {
@@ -113,7 +126,6 @@
 }
 
 .reviewFormSubmitStack {
-  position: relative;
   display: flex;
   flex: 0 0 auto;
 }

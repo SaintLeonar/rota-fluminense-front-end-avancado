@@ -1,0 +1,23 @@
+.validationHint {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+}
+
+.validationHintIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 999px;
+  background: #d85b6c;
+  box-shadow: 0 10px 20px rgba(216, 91, 108, 0.18);
+  color: #fff8f8;
+  font-size: 0.86rem;
+  font-weight: 700;
+  font-style: normal;
+  line-height: 1;
+}

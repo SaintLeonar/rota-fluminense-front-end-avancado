@@ -92,9 +92,15 @@
   align-items: center;
 }
 
+.home-name-field {
+  position: relative;
+  display: grid;
+  align-items: center;
+}
+
 .field-input.home-name-input {
   min-height: 54px;
-  padding: 0 18px;
+  padding: 0 50px 0 18px;
   border: 2px solid #39a1b4;
   border-radius: 999px;
   background: #f5efe3;
@@ -102,8 +108,14 @@
   color: #1a4a6e;
 }
 
+.home-name-hint {
+  position: absolute;
+  top: 50%;
+  right: 16px;
+  transform: translateY(-50%);
+}
+
 .home-submit-stack {
-  position: relative;
   display: flex;
 }
 

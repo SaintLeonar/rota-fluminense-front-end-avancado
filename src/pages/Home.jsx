@@ -8,7 +8,7 @@ import {
 } from '../hooks/useStoredTravelerName'
 import PageContainer from '../components/PageContainer'
 import PrimaryButton from '../components/PrimaryButton'
-import ValidationBalloon from '../components/ValidationBalloon'
+import ValidationHint from '../components/ValidationHint'
 
 function hasTravelerName(value) {
   return value.replace(/[^\p{L}\s]/gu, '').trim().length > 0
@@ -83,34 +83,36 @@ export default function Home() {
           </div>
 
           <div className="home-form-row">
-            <input
-              className={[
-                'field-input',
-                'home-name-input',
-                isNameMissing ? 'is-invalid' : '',
-              ]
-                .filter(Boolean)
-                .join(' ')}
-              type="text"
-              name="userName"
-              placeholder="Seu nome"
-              autoComplete="given-name"
-              autoCapitalize="words"
-              spellCheck={false}
-              maxLength={MAX_TRAVELER_NAME_LENGTH}
-              value={userName}
-              onChange={handleUserNameChange}
-              aria-invalid={isNameMissing}
-            />
+            <div className="home-name-field">
+              <input
+                className={[
+                  'field-input',
+                  'home-name-input',
+                  isNameMissing ? 'is-invalid' : '',
+                ]
+                  .filter(Boolean)
+                  .join(' ')}
+                type="text"
+                name="userName"
+                placeholder="Seu nome"
+                autoComplete="given-name"
+                autoCapitalize="words"
+                spellCheck={false}
+                maxLength={MAX_TRAVELER_NAME_LENGTH}
+                value={userName}
+                onChange={handleUserNameChange}
+                aria-invalid={isNameMissing}
+              />
 
-            <div className="home-submit-stack">
               {isNameMissing ? (
-                <ValidationBalloon
-                  align="end"
+                <ValidationHint
+                  className="home-name-hint"
                   message="Escreva seu nome para entrar."
                 />
               ) : null}
+            </div>
 
+            <div className="home-submit-stack">
               <PrimaryButton type="submit" className="home-submit-button">
                 <span>Entrar</span>
                 <span className="home-submit-arrow" aria-hidden="true">&rarr;</span>

@@ -36,7 +36,15 @@
 }
 
 .validationBalloonCenter::after {
-  left: calc(50% - 7px);
+  left: 22px;
+}
+
+.validationBalloonIcon {
+  left: calc(50% - 29px);
+}
+
+.validationBalloonIcon::after {
+  left: 22px;
 }
 
 .validationBalloonEnd {

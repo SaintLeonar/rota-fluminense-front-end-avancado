@@ -5,8 +5,13 @@ export default function ValidationBalloon({
   align = 'center',
   className = '',
 }) {
+  const alignmentClassNameMap = {
+    center: styles.validationBalloonCenter,
+    end: styles.validationBalloonEnd,
+    icon: styles.validationBalloonIcon,
+  }
   const alignmentClassName =
-    align === 'end' ? styles.validationBalloonEnd : styles.validationBalloonCenter
+    alignmentClassNameMap[align] ?? alignmentClassNameMap.center
 
   return (
     <div

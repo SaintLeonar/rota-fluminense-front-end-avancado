@@ -1,7 +1,7 @@
 import PrimaryButton from './PrimaryButton'
 import styles from './ReviewForm.module.css'
 import SecondaryButton from './SecondaryButton'
-import ValidationBalloon from './ValidationBalloon'
+import ValidationHint from './ValidationHint'
 
 const ratingOptions = [1, 2, 3, 4, 5]
 
@@ -39,22 +39,31 @@ export default function ReviewForm({
         <span className={['review-form-label', styles.reviewFormLabel].join(' ')}>
           Seu nome
         </span>
-        <input
-          className={[
-            'review-form-input',
-            styles.reviewFormInput,
-            isAuthorInvalid ? 'is-invalid' : '',
-          ]
-            .filter(Boolean)
-            .join(' ')}
-          type="text"
-          name="autor"
-          value={values.autor}
-          onChange={handleFieldChange}
-          placeholder="Como assinar?"
-          autoComplete="off"
-          aria-invalid={isAuthorInvalid}
-        />
+        <div className={['review-form-input-row', styles.reviewFormInputRow].join(' ')}>
+          <input
+            className={[
+              'review-form-input',
+              styles.reviewFormInput,
+              isAuthorInvalid ? 'is-invalid' : '',
+            ]
+              .filter(Boolean)
+              .join(' ')}
+            type="text"
+            name="autor"
+            value={values.autor}
+            onChange={handleFieldChange}
+            placeholder="Como assinar?"
+            autoComplete="off"
+            aria-invalid={isAuthorInvalid}
+          />
+
+          {isAuthorInvalid ? (
+            <ValidationHint
+              className={['review-form-input-hint', styles.reviewFormInputHint].join(' ')}
+              message="Informe seu nome antes de postar."
+            />
+          ) : null}
+        </div>
       </label>
 
       <fieldset className={['review-form-rating', styles.reviewFormRating].join(' ')}>
@@ -128,13 +137,6 @@ export default function ReviewForm({
         </SecondaryButton>
 
         <div className={['review-form-submit-stack', styles.reviewFormSubmitStack].join(' ')}>
-          {isAuthorInvalid ? (
-            <ValidationBalloon
-              align="end"
-              message="Informe seu nome antes de postar."
-            />
-          ) : null}
-
           <PrimaryButton
             className="review-form-submit"
             type="submit"
