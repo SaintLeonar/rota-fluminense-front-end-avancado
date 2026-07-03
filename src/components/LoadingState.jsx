@@ -2,7 +2,7 @@ import styles from './LoadingState.module.css'
 
 export default function LoadingState({
   title = 'Carregando conteudo',
-  description = 'Estamos preparando as informacoes para voce.',
+  description = 'Estamos preparando as informações para você.',
 }) {
   return (
     <section
@@ -20,9 +20,10 @@ export default function LoadingState({
       </div>
 
       <div className={['loading-state-copy', styles.loadingStateCopy].join(' ')}>
-        <p className="eyebrow">Carregando</p>
-        <h2>{title}</h2>
-        <p className="support-copy">{description}</p>
+        <p className={['eyebrow', styles.loadingStateEyebrow].join(' ')}>
+          {title}
+        </p>
+        {description ? <p className="support-copy">{description}</p> : null}
       </div>
     </section>
   )

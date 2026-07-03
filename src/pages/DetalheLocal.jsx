@@ -110,7 +110,7 @@ export default function DetalheLocal() {
     >
       {status === 'loading' ? (
         <LoadingState
-          title="Carregando informacoes do local"
+          title="Carregando informações do local"
           description="Estamos preparando os detalhes e o diario de visitas deste destino."
         />
       ) : null}
