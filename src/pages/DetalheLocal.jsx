@@ -9,6 +9,7 @@ import PageContainer from '../components/PageContainer'
 import PrimaryButton from '../components/PrimaryButton'
 import ReviewCard from '../components/ReviewCard'
 import ReviewForm from '../components/ReviewForm'
+import Tooltip from '../components/Tooltip'
 import { useDetalheLocal } from '../hooks/useDetalheLocal'
 
 function DetailStars({ rating, total }) {
@@ -136,9 +137,17 @@ export default function DetalheLocal() {
             <div className="detail-reviews-header">
               <h2 className="detail-reviews-title">Diario de visitas</h2>
 
-              <PrimaryButton className="detail-review-cta" onClick={handleOpenReviewForm}>
-                + Avaliar
-              </PrimaryButton>
+              <Tooltip
+                content="Deixe uma avaliação e comentário sobre este local"
+                align="end"
+              >
+                <PrimaryButton
+                  className="detail-review-cta"
+                  onClick={handleOpenReviewForm}
+                >
+                  + Avaliar
+                </PrimaryButton>
+              </Tooltip>
             </div>
 
             {submitFeedback?.variant === 'error' ? (

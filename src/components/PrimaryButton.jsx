@@ -6,6 +6,7 @@ export default function PrimaryButton({
   onClick,
   disabled = false,
   className = '',
+  ...props
 }) {
   const resolvedClassName = ['primary-button', styles.primaryButton, className]
     .filter(Boolean)
@@ -17,6 +18,7 @@ export default function PrimaryButton({
       className={resolvedClassName}
       onClick={onClick}
       disabled={disabled}
+      {...props}
     >
       {children}
     </button>

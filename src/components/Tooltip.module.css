@@ -1,0 +1,81 @@
+.tooltip {
+  position: relative;
+  display: inline-flex;
+  width: fit-content;
+}
+
+.bubble {
+  position: absolute;
+  bottom: calc(100% + 10px);
+  z-index: 2;
+  width: max-content;
+  max-width: min(32ch, calc(100vw - 48px));
+  padding: 10px 12px;
+  border-radius: 14px;
+  background: #5cbdb9;
+  color: #0c2340;
+  box-shadow: 0 14px 28px rgba(12, 35, 64, 0.18);
+  font-size: 0.78rem;
+  font-weight: 500;
+  line-height: 1.4;
+  text-transform: none;
+  white-space: normal;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition:
+    opacity 0.18s ease,
+    transform 0.18s ease,
+    visibility 0.18s ease;
+}
+
+.bubble::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  border-width: 6px;
+  border-style: solid;
+  border-color: #5cbdb9 transparent transparent transparent;
+}
+
+.alignCenter .bubble {
+  left: 50%;
+  transform: translate(-50%, 8px);
+}
+
+.alignCenter .bubble::after {
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.alignStart .bubble {
+  left: 0;
+  transform: translateY(8px);
+}
+
+.alignStart .bubble::after {
+  left: 18px;
+}
+
+.alignEnd .bubble {
+  right: 0;
+  transform: translateY(8px);
+}
+
+.alignEnd .bubble::after {
+  right: 18px;
+}
+
+.tooltip[data-visible='true'] .bubble {
+  opacity: 1;
+  visibility: visible;
+}
+
+.tooltip[data-visible='true'].alignCenter .bubble {
+  transform: translate(-50%, 0);
+}
+
+.tooltip[data-visible='true'].alignStart .bubble,
+.tooltip[data-visible='true'].alignEnd .bubble {
+  transform: translateY(0);
+}
