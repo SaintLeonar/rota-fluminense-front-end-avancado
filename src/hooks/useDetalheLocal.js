@@ -33,6 +33,7 @@ export function useDetalheLocal(slug) {
     async function loadDetalhe() {
       setStatus('loading')
       setErrorMessage('')
+      setSubmitFeedback(null)
 
       try {
         const localData = await findLocalByIdOrSlug(slug)
@@ -127,7 +128,10 @@ export function useDetalheLocal(slug) {
       setAvaliacoes((currentReviews) => [novaAvaliacao, ...currentReviews])
       setReviewValues(createInitialReviewValues())
       setIsFormOpen(false)
-      setSubmitFeedback(null)
+      setSubmitFeedback({
+        variant: 'success',
+        message: 'Obrigado por avaliar!',
+      })
     } catch (error) {
       setSubmitFeedback({
         variant: 'error',

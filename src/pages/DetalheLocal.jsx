@@ -69,6 +69,38 @@ export default function DetalheLocal() {
     handleReviewSubmit,
   } = useDetalheLocal(slug)
 
+  const isReviewSuccess = submitFeedback?.variant === 'success'
+  const reviewCtaLabel = isReviewSuccess
+    ? submitFeedback.message
+    : '+ Avaliar'
+  const reviewCta = (
+    <PrimaryButton
+      className={[
+        'detail-review-cta',
+        isReviewSuccess ? 'is-success' : '',
+      ]
+        .filter(Boolean)
+        .join(' ')}
+      onClick={handleOpenReviewForm}
+      disabled={isReviewSuccess}
+      aria-label={reviewCtaLabel}
+      aria-live="polite"
+    >
+      <span
+        className="detail-review-cta-label detail-review-cta-label-default"
+        aria-hidden={isReviewSuccess}
+      >
+        + Avaliar
+      </span>
+      <span
+        className="detail-review-cta-label detail-review-cta-label-success"
+        aria-hidden={!isReviewSuccess}
+      >
+        Obrigado por avaliar!
+      </span>
+    </PrimaryButton>
+  )
+
   return (
     <PageContainer
       title="Rota Fluminense"
@@ -137,17 +169,16 @@ export default function DetalheLocal() {
             <div className="detail-reviews-header">
               <h2 className="detail-reviews-title">Diario de visitas</h2>
 
-              <Tooltip
-                content="Deixe uma avaliação e comentário sobre este local"
-                align="end"
-              >
-                <PrimaryButton
-                  className="detail-review-cta"
-                  onClick={handleOpenReviewForm}
+              {isReviewSuccess ? (
+                reviewCta
+              ) : (
+                <Tooltip
+                  content="Deixe uma avaliação e comentário sobre este local"
+                  align="end"
                 >
-                  + Avaliar
-                </PrimaryButton>
-              </Tooltip>
+                  {reviewCta}
+                </Tooltip>
+              )}
             </div>
 
             {submitFeedback?.variant === 'error' ? (
