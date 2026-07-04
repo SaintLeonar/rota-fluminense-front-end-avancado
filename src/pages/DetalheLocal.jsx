@@ -1,7 +1,8 @@
-import { useParams } from 'react-router-dom'
+import { useLocation, useParams } from 'react-router-dom'
 
 import './DetalheLocal.css'
 import BackButton from '../components/BackButton'
+import Breadcrumb from '../components/Breadcrumb'
 import EmptyState from '../components/EmptyState'
 import FeedbackAlert from '../components/FeedbackAlert'
 import LoadingState from '../components/LoadingState'
@@ -46,9 +47,36 @@ function DetailStars({ rating, total }) {
   )
 }
 
+function formatSlugLabel(slug) {
+  return slug
+    .split('-')
+    .filter(Boolean)
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' ')
+}
+
+function buildBreadcrumbItems(pathname, localName) {
+  const segments = pathname.split('/').filter(Boolean)
+  const items = [{ label: 'Rota Fluminense', to: '/' }]
+
+  if (segments[0] === 'locais') {
+    items.push({ label: 'Locais', to: '/locais' })
+  }
+
+  if (segments[1]) {
+    items.push({
+      label: localName || formatSlugLabel(segments[1]),
+    })
+  }
+
+  return items
+}
+
 export default function DetalheLocal() {
   // Hook registrado para apresentacao: useParams le o slug dinamico da rota.
   const { slug } = useParams()
+  // Hook registrado para apresentacao: useLocation le a rota atual para montar o breadcrumb.
+  const location = useLocation()
 
   // Hook registrado para apresentacao: hook customizado concentra carregamento do detalhe e envio da avaliacao.
   const {
@@ -70,6 +98,7 @@ export default function DetalheLocal() {
   } = useDetalheLocal(slug)
 
   const isReviewSuccess = submitFeedback?.variant === 'success'
+  const breadcrumbItems = buildBreadcrumbItems(location.pathname, local?.nome)
   const reviewCtaLabel = isReviewSuccess
     ? submitFeedback.message
     : '+ Avaliar'
@@ -139,6 +168,7 @@ export default function DetalheLocal() {
           </div>
 
           <section className="detail-main">
+            <Breadcrumb className="detail-breadcrumb" items={breadcrumbItems} />
             <p className="detail-category-pill">{local.categoria.toUpperCase()}</p>
             <h1 className="detail-title">{local.nome}</h1>
 

@@ -93,6 +93,10 @@
   padding: 0 22px;
 }
 
+.detail-breadcrumb {
+  margin-top: 4px;
+}
+
 .detail-category-pill {
   width: fit-content;
   padding: 8px 18px;
