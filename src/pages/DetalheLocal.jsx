@@ -239,8 +239,8 @@ export default function DetalheLocal() {
               </div>
             ) : (
               <EmptyState
-                title="Ainda nao ha avaliacoes"
-                description="Seja a primeira pessoa a registrar uma impressao sobre este local."
+                title="Ainda nao há avaliações"
+                description="Seja a primeira pessoa a registrar uma impressão sobre este local."
               />
             )}
           </aside>
@@ -249,10 +249,10 @@ export default function DetalheLocal() {
 
       {status === 'success' && !local ? (
         <EmptyState
-          title="Local nao encontrado"
+          title="Local não encontrado"
           description={
             <>
-              Nenhum local foi encontrado para o slug <code>{slug}</code>.
+              Nenhum local foi encontrado com o nome <code>{slug}</code>.
             </>
           }
         />

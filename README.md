@@ -2,14 +2,14 @@
 
 Rota Fluminense é um MVP front-end desenvolvido com React e Vite para apresentar pontos turisticos do Rio de Janeiro de forma visual, leve e responsiva. A aplicacao permite personalizar a experiencia com o nome do viajante, explorar locais por busca e categoria, abrir a pagina de detalhe de cada destino e registrar avaliações.
 
-## Pre-requisitos
+## Pré-requisitos
 
 Antes de comecar, garanta que o ambiente local tenha:
 
-- Node.js na versao `24.16.x`
+- Node.js na versão `24.16.x`
 - npm instalado
 
-## Instalacao
+## Instalação
 
 ### 1. Obtenha o codigo do projeto
 
@@ -42,4 +42,4 @@ O Vite exibirá no terminal o endereço local da aplicação, normalmente algo c
 http://localhost:5173
 ```
 
-Abra esse endereco no navegador para visualizar o projeto.
+Abra esse endereço no navegador para visualizar o projeto.
