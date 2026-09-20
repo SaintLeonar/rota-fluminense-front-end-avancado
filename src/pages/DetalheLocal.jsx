@@ -10,16 +10,22 @@ import PageContainer from '../components/PageContainer'
 import PrimaryButton from '../components/PrimaryButton'
 import ReviewCard from '../components/ReviewCard'
 import ReviewForm from '../components/ReviewForm'
+import RetryFeedback from '../components/RetryFeedback'
 import Tooltip from '../components/Tooltip'
+import WeatherCard from '../components/WeatherCard'
 import { useDetalheLocal } from '../hooks/useDetalheLocal'
 
 function DetailStars({ rating, total }) {
-  const roundedRating = Math.round(Number(rating))
+  const hasRating = typeof rating === 'number' && Number.isFinite(rating)
+  const roundedRating = hasRating ? Math.round(rating) : 0
   const stars = Array.from({ length: 5 }, (_, index) => index + 1)
-  const reviewLabel = total === 1 ? 'avaliacao' : 'avaliacoes'
+  const reviewLabel = total === 1 ? 'avaliação' : 'avaliações'
+  const accessibleLabel = hasRating
+    ? `Nota ${rating.toFixed(1)} de 5, ${total} ${reviewLabel}`
+    : 'Ainda sem avaliações'
 
   return (
-    <div className="detail-rating" aria-label={`Nota ${rating}`}>
+    <div className="detail-rating" aria-label={accessibleLabel}>
       <div className="detail-rating-stars" aria-hidden="true">
         {stars.map((star) => (
           <span
@@ -41,7 +47,8 @@ function DetailStars({ rating, total }) {
       </div>
 
       <p className="detail-rating-copy">
-        <strong>{Number(rating).toFixed(1)}</strong> ({total} {reviewLabel})
+        <strong>{hasRating ? rating.toFixed(1) : 'Novo'}</strong> ({total}{' '}
+        {reviewLabel})
       </p>
     </div>
   )
@@ -84,10 +91,14 @@ export default function DetalheLocal() {
     avaliacoes,
     status,
     errorMessage,
+    retryDetail,
+    reviewsStatus,
+    reviewsErrorMessage,
+    retryReviews,
     isFormOpen,
     reviewValues,
     isSubmittingReview,
-    isReviewAuthorMissing,
+    reviewFieldErrors,
     submitFeedback,
     totalReviews,
     averageRating,
@@ -145,13 +156,13 @@ export default function DetalheLocal() {
       ) : null}
 
       {status === 'error' ? (
-        <FeedbackAlert
-          variant="error"
-          title="Nao foi possivel carregar este local"
+        <RetryFeedback
+          title="Não foi possível carregar este local"
           message={
             errorMessage ||
             'Tente voltar e abrir novamente o detalhe em alguns instantes.'
           }
+          onRetry={retryDetail}
         />
       ) : null}
 
@@ -169,7 +180,7 @@ export default function DetalheLocal() {
 
           <section className="detail-main">
             <Breadcrumb className="detail-breadcrumb" items={breadcrumbItems} />
-            <p className="detail-category-pill">{local.categoria.toUpperCase()}</p>
+            <p className="detail-category-pill">{local.categoriaLabel}</p>
             <h1 className="detail-title">{local.nome}</h1>
 
             <div className="detail-meta">
@@ -186,13 +197,17 @@ export default function DetalheLocal() {
                     />
                   </svg>
                 </span>
-                <span>{local.bairro}, Rio de Janeiro</span>
+                <span>
+                  {local.bairro}, {local.cidade} • {local.regiao}
+                </span>
               </div>
 
               <DetailStars rating={averageRating} total={totalReviews} />
             </div>
 
             <p className="detail-description">{local.descricao}</p>
+
+            <WeatherCard slug={local.slug} />
           </section>
 
           <aside className="detail-reviews">
@@ -226,8 +241,26 @@ export default function DetalheLocal() {
                 onChange={handleReviewChange}
                 onSubmit={handleReviewSubmit}
                 onCancel={handleCancelReviewForm}
-                isAuthorInvalid={isReviewAuthorMissing}
+                fieldErrors={reviewFieldErrors}
                 isSubmitting={isSubmittingReview}
+              />
+            ) : null}
+
+            {reviewsStatus === 'loading' ? (
+              <LoadingState
+                title="Carregando avaliações"
+                description="Buscando as experiências registradas para este destino."
+              />
+            ) : null}
+
+            {reviewsStatus === 'error' ? (
+              <RetryFeedback
+                title="Não foi possível carregar as avaliações"
+                message={
+                  reviewsErrorMessage ||
+                  'O destino continua disponível. Tente novamente mais tarde.'
+                }
+                onRetry={retryReviews}
               />
             ) : null}
 
@@ -237,22 +270,24 @@ export default function DetalheLocal() {
                   <ReviewCard key={avaliacao.id} review={avaliacao} />
                 ))}
               </div>
-            ) : (
+            ) : null}
+
+            {reviewsStatus === 'success' && avaliacoes.length === 0 ? (
               <EmptyState
-                title="Ainda nao há avaliações"
+                title="Ainda não há avaliações"
                 description="Seja a primeira pessoa a registrar uma impressão sobre este local."
               />
-            )}
+            ) : null}
           </aside>
         </article>
       ) : null}
 
-      {status === 'success' && !local ? (
+      {status === 'not-found' ? (
         <EmptyState
           title="Local não encontrado"
           description={
             <>
-              Nenhum local foi encontrado com o nome <code>{slug}</code>.
+              Nenhum local foi encontrado para o endereço <code>{slug}</code>.
             </>
           }
         />

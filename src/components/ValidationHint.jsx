@@ -2,11 +2,13 @@ import ValidationBalloon from './ValidationBalloon'
 import styles from './ValidationHint.module.css'
 
 export default function ValidationHint({
+  id,
   message,
   className = '',
 }) {
   return (
     <div
+      id={id}
       className={['validation-hint', styles.validationHint, className]
         .filter(Boolean)
         .join(' ')}

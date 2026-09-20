@@ -7,6 +7,7 @@ export default function LoadingState({
   return (
     <section
       className={['loading-state', styles.loadingState].join(' ')}
+      role="status"
       aria-live="polite"
       aria-busy="true"
     >

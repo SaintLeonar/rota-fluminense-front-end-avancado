@@ -1,10 +1,13 @@
 import styles from './RatingBadge.module.css'
 
 export default function RatingBadge({ rating }) {
+  const hasRating = typeof rating === 'number' && Number.isFinite(rating)
+  const ratingLabel = hasRating ? 'Nota ' + rating : 'Ainda sem avaliações'
+
   return (
     <span
       className={['rating-badge', styles.ratingBadge].join(' ')}
-      aria-label={`Nota ${rating}`}
+      aria-label={ratingLabel}
     >
       <span
         className={['rating-badge-star', styles.ratingBadgeStar].join(' ')}
@@ -17,7 +20,7 @@ export default function RatingBadge({ rating }) {
           />
         </svg>
       </span>
-      <span>{rating}</span>
+      <span>{hasRating ? rating : 'Novo'}</span>
     </span>
   )
 }

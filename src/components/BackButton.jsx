@@ -23,7 +23,12 @@ export default function BackButton({
   }
 
   return (
-    <button type="button" className={resolvedClassName} onClick={handleBack}>
+    <button
+      type="button"
+      className={resolvedClassName}
+      onClick={handleBack}
+      aria-label={iconOnly ? label : undefined}
+    >
       <span className="back-button-icon" aria-hidden="true">
         <svg viewBox="0 0 24 24" focusable="false">
           <path

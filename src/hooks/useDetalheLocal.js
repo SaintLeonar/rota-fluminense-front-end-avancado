@@ -1,8 +1,15 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 
-import { createAvaliacao, listAvaliacoesByLocal } from '../services/avaliacoesService'
-import { findLocalByIdOrSlug } from '../services/locaisService'
+import { createAvaliacao, listAvaliacoesBySlug } from '../services/avaliacoesService'
+import { isApiError, isRequestCanceled } from '../services/apiClient.js'
+import { findLocalBySlug } from '../services/locaisService'
+import {
+  calculateReviewAggregates,
+  mergeReviewNewestFirst,
+} from '../utils/reviewState.js'
 import { readStoredTravelerName } from './useStoredTravelerName'
+
+const REVIEW_FIELDS = new Set(['autor', 'nota', 'comentario'])
 
 function createInitialReviewValues() {
   return {
@@ -12,8 +19,55 @@ function createInitialReviewValues() {
   }
 }
 
-function hasReviewAuthor(value) {
-  return value.trim().length > 0
+function validateReviewValues(values) {
+  const errors = {}
+  const autor = typeof values.autor === 'string' ? values.autor.trim() : ''
+  const comentario =
+    typeof values.comentario === 'string' ? values.comentario.trim() : ''
+
+  if (!autor) {
+    errors.autor = 'Informe seu nome antes de postar.'
+  } else if (autor.length > 120) {
+    errors.autor = 'Use no máximo 120 caracteres.'
+  }
+
+  if (!Number.isInteger(values.nota) || values.nota < 1 || values.nota > 5) {
+    errors.nota = 'Escolha uma nota entre 1 e 5.'
+  }
+
+  if (comentario.length > 1000) {
+    errors.comentario = 'Use no máximo 1000 caracteres.'
+  }
+
+  return {
+    errors,
+    payload: {
+      autor,
+      nota: values.nota,
+      comentario: comentario || null,
+    },
+  }
+}
+
+function getApiReviewFieldErrors(error) {
+  if (!isApiError(error) || error.status !== 400) {
+    return {}
+  }
+
+  return error.details.reduce((fieldErrors, detail) => {
+    const field = detail?.campo
+
+    if (!REVIEW_FIELDS.has(field) || fieldErrors[field]) {
+      return fieldErrors
+    }
+
+    fieldErrors[field] =
+      typeof detail.mensagem === 'string' && detail.mensagem.trim()
+        ? detail.mensagem.trim()
+        : 'Revise este campo.'
+
+    return fieldErrors
+  }, {})
 }
 
 export function useDetalheLocal(slug) {
@@ -21,49 +75,109 @@ export function useDetalheLocal(slug) {
   const [avaliacoes, setAvaliacoes] = useState([])
   const [status, setStatus] = useState('idle')
   const [errorMessage, setErrorMessage] = useState('')
+  const [reviewsStatus, setReviewsStatus] = useState('idle')
+  const [reviewsErrorMessage, setReviewsErrorMessage] = useState('')
   const [isFormOpen, setIsFormOpen] = useState(false)
   const [reviewValues, setReviewValues] = useState(() => createInitialReviewValues())
   const [isSubmittingReview, setIsSubmittingReview] = useState(false)
   const [submitFeedback, setSubmitFeedback] = useState(null)
-  const [isReviewAuthorMissing, setIsReviewAuthorMissing] = useState(false)
+  const [reviewFieldErrors, setReviewFieldErrors] = useState({})
+  const [detailRequestVersion, setDetailRequestVersion] = useState(0)
+  const [reviewsRetryRequest, setReviewsRetryRequest] = useState(null)
+  const submitLockRef = useRef(false)
+  const activeSlugRef = useRef(slug)
+
+  const retryDetail = useCallback(() => {
+    setDetailRequestVersion((currentVersion) => currentVersion + 1)
+  }, [])
+
+  const retryReviews = useCallback(() => {
+    setReviewsRetryRequest((currentRequest) => ({
+      slug,
+      version:
+        currentRequest?.slug === slug ? currentRequest.version + 1 : 1,
+    }))
+  }, [slug])
 
   useEffect(() => {
-    let isMounted = true
+    activeSlugRef.current = slug
+
+    return () => {
+      if (activeSlugRef.current === slug) {
+        activeSlugRef.current = null
+      }
+    }
+  }, [slug])
+
+  useEffect(() => {
+    const controller = new AbortController()
+    let isActive = true
 
     async function loadDetalhe() {
+      setLocal(null)
+      setAvaliacoes([])
       setStatus('loading')
       setErrorMessage('')
+      setReviewsStatus('idle')
+      setReviewsErrorMessage('')
       setSubmitFeedback(null)
+      setReviewFieldErrors({})
+      setIsFormOpen(false)
 
       try {
-        const localData = await findLocalByIdOrSlug(slug)
+        const localData = await findLocalBySlug(slug, {
+          signal: controller.signal,
+        })
 
-        if (!isMounted) {
+        if (!isActive) {
           return
         }
 
         setLocal(localData)
-
-        if (!localData) {
-          setAvaliacoes([])
-          setStatus('success')
-          return
-        }
-
-        const avaliacoesData = await listAvaliacoesByLocal(localData.id)
-
-        if (!isMounted) {
-          return
-        }
-
-        setAvaliacoes(avaliacoesData)
         setStatus('success')
+        setReviewsStatus('loading')
+
+        try {
+          const avaliacoesData = await listAvaliacoesBySlug(slug, {
+            signal: controller.signal,
+          })
+
+          if (!isActive) {
+            return
+          }
+
+          setAvaliacoes(avaliacoesData)
+          setReviewsStatus('success')
+        } catch (error) {
+          if (!isActive || isRequestCanceled(error)) {
+            return
+          }
+
+          setReviewsErrorMessage(
+            error instanceof Error
+              ? error.message
+              : 'Não foi possível carregar as avaliações no momento.',
+          )
+          setReviewsStatus('error')
+        }
       } catch (error) {
-        if (!isMounted) {
+        if (!isActive || isRequestCanceled(error)) {
           return
         }
 
-        setErrorMessage(error.message)
+        setLocal(null)
+        setAvaliacoes([])
+
+        if (isApiError(error) && error.code === 'local_nao_encontrado') {
+          setStatus('not-found')
+          return
+        }
+
+        setErrorMessage(
+          error instanceof Error
+            ? error.message
+            : 'Não foi possível carregar os dados no momento.',
+        )
         setStatus('error')
       }
     }
@@ -71,95 +185,212 @@ export function useDetalheLocal(slug) {
     loadDetalhe()
 
     return () => {
-      isMounted = false
+      isActive = false
+      controller.abort()
     }
-  }, [slug])
+  }, [detailRequestVersion, slug])
+
+  useEffect(() => {
+    if (
+      reviewsRetryRequest?.slug !== slug ||
+      local?.slug !== slug
+    ) {
+      return undefined
+    }
+
+    const controller = new AbortController()
+    let isActive = true
+
+    async function reloadReviews() {
+      setReviewsStatus('loading')
+      setReviewsErrorMessage('')
+
+      try {
+        const reviewsData = await listAvaliacoesBySlug(slug, {
+          signal: controller.signal,
+        })
+
+        if (!isActive) {
+          return
+        }
+
+        setAvaliacoes(reviewsData)
+        setReviewsStatus('success')
+      } catch (error) {
+        if (!isActive || isRequestCanceled(error)) {
+          return
+        }
+
+        setReviewsErrorMessage(
+          error instanceof Error
+            ? error.message
+            : 'Não foi possível carregar as avaliações no momento.',
+        )
+        setReviewsStatus('error')
+      }
+    }
+
+    reloadReviews()
+
+    return () => {
+      isActive = false
+      controller.abort()
+    }
+  }, [local?.slug, reviewsRetryRequest, slug])
 
   function handleReviewChange(fieldName, value) {
     setReviewValues((currentValues) => ({
       ...currentValues,
       [fieldName]: value,
     }))
+    setReviewFieldErrors((currentErrors) => {
+      if (!currentErrors[fieldName]) {
+        return currentErrors
+      }
 
-    if (fieldName === 'autor' && isReviewAuthorMissing) {
-      setIsReviewAuthorMissing(!hasReviewAuthor(value))
-    }
+      const nextErrors = { ...currentErrors }
+      delete nextErrors[fieldName]
+      return nextErrors
+    })
   }
 
   function handleOpenReviewForm() {
     setSubmitFeedback(null)
-    setIsReviewAuthorMissing(false)
+    setReviewFieldErrors({})
     setIsFormOpen(true)
   }
 
   function handleCancelReviewForm() {
     setIsFormOpen(false)
     setSubmitFeedback(null)
-    setIsReviewAuthorMissing(false)
+    setReviewFieldErrors({})
     setReviewValues(createInitialReviewValues())
+  }
+
+  async function reconcileReviewState(expectedSlug) {
+    try {
+      const [freshLocal, freshReviews] = await Promise.all([
+        findLocalBySlug(expectedSlug),
+        listAvaliacoesBySlug(expectedSlug),
+      ])
+
+      if (activeSlugRef.current !== expectedSlug) {
+        return
+      }
+
+      setLocal(freshLocal)
+      setAvaliacoes(freshReviews)
+      setReviewsStatus('success')
+      setReviewsErrorMessage('')
+    } catch {
+      // A criação já foi persistida; uma próxima carga reconciliará os dados.
+    }
   }
 
   async function handleReviewSubmit(event) {
     event.preventDefault()
 
-    if (!local) {
+    if (!local || submitLockRef.current) {
       return
     }
 
-    const normalizedAuthor = reviewValues.autor.trim()
+    const { errors, payload } = validateReviewValues(reviewValues)
 
-    if (!normalizedAuthor) {
-      setIsReviewAuthorMissing(true)
+    if (Object.keys(errors).length > 0) {
+      setReviewFieldErrors(errors)
       return
     }
 
-    setIsReviewAuthorMissing(false)
+    submitLockRef.current = true
+    setReviewFieldErrors({})
     setIsSubmittingReview(true)
     setSubmitFeedback(null)
 
     try {
-      const novaAvaliacao = await createAvaliacao({
-        localId: local.id,
-        ...reviewValues,
-        autor: normalizedAuthor,
-        assinatura: '',
-      })
+      const createdReview = await createAvaliacao(slug, payload)
 
-      setAvaliacoes((currentReviews) => [novaAvaliacao, ...currentReviews])
+      if (activeSlugRef.current !== slug) {
+        return
+      }
+
+      const nextReviews = mergeReviewNewestFirst(avaliacoes, createdReview)
+      const hasCompleteCollection =
+        reviewsStatus === 'success' &&
+        avaliacoes.length === local.totalAvaliacoes
+      const estimatedTotal = local.totalAvaliacoes + 1
+      const estimatedAverage = Number(
+        (
+          ((local.nota ?? 0) * local.totalAvaliacoes + createdReview.nota) /
+          estimatedTotal
+        ).toFixed(1),
+      )
+      const optimisticAggregates = hasCompleteCollection
+        ? calculateReviewAggregates(nextReviews)
+        : {
+            totalReviews: estimatedTotal,
+            averageRating: estimatedAverage,
+          }
+
+      setAvaliacoes(nextReviews)
+      setReviewsStatus('success')
+      setReviewsErrorMessage('')
+      setLocal((currentLocal) =>
+        currentLocal?.slug === slug
+          ? {
+              ...currentLocal,
+              nota: optimisticAggregates.averageRating,
+              totalAvaliacoes: optimisticAggregates.totalReviews,
+            }
+          : currentLocal,
+      )
       setReviewValues(createInitialReviewValues())
       setIsFormOpen(false)
       setSubmitFeedback({
         variant: 'success',
         message: 'Obrigado por avaliar!',
       })
+      await reconcileReviewState(slug)
     } catch (error) {
+      const apiFieldErrors = getApiReviewFieldErrors(error)
+      const hasApiFieldErrors = Object.keys(apiFieldErrors).length > 0
+      let message = 'Tente novamente em instantes.'
+
+      if (!hasApiFieldErrors && error instanceof Error) {
+        message = error.message
+      } else if (hasApiFieldErrors) {
+        message = 'Corrija os campos destacados e tente novamente.'
+      }
+
+      setReviewFieldErrors(apiFieldErrors)
       setSubmitFeedback({
         variant: 'error',
-        title: 'Nao foi possivel enviar a avaliacao',
-        message: error.message || 'Tente novamente em instantes.',
+        title: hasApiFieldErrors
+          ? 'Revise os campos da avaliação'
+          : 'Não foi possível enviar a avaliação',
+        message,
       })
     } finally {
+      submitLockRef.current = false
       setIsSubmittingReview(false)
     }
   }
 
-  const totalReviews =
-    avaliacoes.length > 0 ? avaliacoes.length : local?.totalAvaliacoes ?? 0
-  const averageRating =
-    avaliacoes.length > 0
-      ? avaliacoes.reduce((total, review) => total + Number(review.nota), 0) /
-        avaliacoes.length
-      : local?.nota ?? 0
+  const totalReviews = local?.totalAvaliacoes ?? 0
+  const averageRating = local?.nota ?? null
 
   return {
     local,
     avaliacoes,
     status,
     errorMessage,
+    retryDetail,
+    reviewsStatus,
+    reviewsErrorMessage,
+    retryReviews,
     isFormOpen,
     reviewValues,
     isSubmittingReview,
-    isReviewAuthorMissing,
+    reviewFieldErrors,
     submitFeedback,
     totalReviews,
     averageRating,

@@ -19,6 +19,7 @@ export default function FeedbackAlert({
   }
   const resolvedVariantClassName =
     variantClassNames[variant] ?? variantClassNames.success
+  const isError = variant === 'error'
 
   return (
     <section
@@ -28,8 +29,8 @@ export default function FeedbackAlert({
         styles.feedbackAlert,
         resolvedVariantClassName,
       ].join(' ')}
-      role="status"
-      aria-live="polite"
+      role={isError ? 'alert' : 'status'}
+      aria-live={isError ? 'assertive' : 'polite'}
     >
       <p className={['feedback-alert-badge', styles.feedbackAlertBadge].join(' ')}>
         {badgeLabel}

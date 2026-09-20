@@ -37,7 +37,7 @@
   margin-bottom: 0;
   font-size: clamp(0.74rem, 1vw, 0.95rem);
   line-height: 1.3;
-  color: #7c8895;
+  color: #5f6c79;
 }
 
 .locais-content {
@@ -64,7 +64,7 @@
   padding-top: 16px;
   text-align: center;
   font-size: 0.78rem;
-  color: #7f8a95;
+  color: #5f6c79;
 }
 
 .locais-content .card-list {

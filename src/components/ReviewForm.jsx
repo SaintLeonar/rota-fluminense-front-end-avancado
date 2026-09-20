@@ -1,3 +1,5 @@
+import { useId } from 'react'
+
 import PrimaryButton from './PrimaryButton'
 import styles from './ReviewForm.module.css'
 import SecondaryButton from './SecondaryButton'
@@ -10,7 +12,7 @@ export default function ReviewForm({
   onChange,
   onSubmit,
   onCancel,
-  isAuthorInvalid = false,
+  fieldErrors = {},
   isSubmitting = false,
   className = '',
   title = 'Escrever uma nota',
@@ -18,6 +20,13 @@ export default function ReviewForm({
   const resolvedClassName = ['review-form', styles.reviewForm, className]
     .filter(Boolean)
     .join(' ')
+  const isAuthorInvalid = Boolean(fieldErrors.autor)
+  const isRatingInvalid = Boolean(fieldErrors.nota)
+  const isCommentInvalid = Boolean(fieldErrors.comentario)
+  const authorErrorId = useId()
+  const ratingErrorId = useId()
+  const commentErrorId = useId()
+  const titleId = useId()
 
   function handleFieldChange(event) {
     const { name, value } = event.target
@@ -30,8 +39,10 @@ export default function ReviewForm({
       onSubmit={onSubmit}
       autoComplete="off"
       noValidate
+      aria-busy={isSubmitting}
+      aria-labelledby={titleId}
     >
-      <h3 className={['review-form-title', styles.reviewFormTitle].join(' ')}>
+      <h3 id={titleId} className={['review-form-title', styles.reviewFormTitle].join(' ')}>
         {title}
       </h3>
 
@@ -55,18 +66,28 @@ export default function ReviewForm({
             placeholder="Como assinar?"
             autoComplete="off"
             aria-invalid={isAuthorInvalid}
+            aria-describedby={isAuthorInvalid ? authorErrorId : undefined}
+            aria-label="Seu nome"
+            disabled={isSubmitting}
+            maxLength="120"
           />
 
           {isAuthorInvalid ? (
             <ValidationHint
+              id={authorErrorId}
               className={['review-form-input-hint', styles.reviewFormInputHint].join(' ')}
-              message="Informe seu nome antes de postar."
+              message={fieldErrors.autor}
             />
           ) : null}
         </div>
       </label>
 
-      <fieldset className={['review-form-rating', styles.reviewFormRating].join(' ')}>
+      <fieldset
+        className={['review-form-rating', styles.reviewFormRating].join(' ')}
+        aria-invalid={isRatingInvalid}
+        aria-describedby={isRatingInvalid ? ratingErrorId : undefined}
+        disabled={isSubmitting}
+      >
         <legend className={['review-form-label', styles.reviewFormLabel].join(' ')}>
           Sua nota
         </legend>
@@ -89,6 +110,7 @@ export default function ReviewForm({
                   .join(' ')}
                 onClick={() => onChange('nota', option)}
                 aria-pressed={Number(values.nota) === option}
+                aria-label={`Nota ${option} de 5`}
               >
                 <span
                   aria-hidden="true"
@@ -105,26 +127,48 @@ export default function ReviewForm({
             )
           })}
         </div>
+
+        {isRatingInvalid ? (
+          <ValidationHint id={ratingErrorId} message={fieldErrors.nota} />
+        ) : null}
       </fieldset>
 
       <label className={['review-form-field', styles.reviewFormField].join(' ')}>
         <span className={['review-form-label', styles.reviewFormLabel].join(' ')}>
-          Comentario (opcional)
+          Comentário (opcional)
         </span>
-        <textarea
-          className={[
-            'review-form-input',
-            styles.reviewFormInput,
-            'review-form-textarea',
-            styles.reviewFormTextarea,
-          ].join(' ')}
-          name="comentario"
-          value={values.comentario}
-          onChange={handleFieldChange}
-          placeholder="O que achou do passeio?"
-          autoComplete="off"
-          rows="4"
-        />
+        <div className={['review-form-input-row', styles.reviewFormInputRow].join(' ')}>
+          <textarea
+            className={[
+              'review-form-input',
+              styles.reviewFormInput,
+              'review-form-textarea',
+              styles.reviewFormTextarea,
+              isCommentInvalid ? 'is-invalid' : '',
+            ]
+              .filter(Boolean)
+              .join(' ')}
+            name="comentario"
+            value={values.comentario}
+            onChange={handleFieldChange}
+            placeholder="O que achou do passeio?"
+            autoComplete="off"
+            aria-invalid={isCommentInvalid}
+            aria-describedby={isCommentInvalid ? commentErrorId : undefined}
+            aria-label="Comentário (opcional)"
+            disabled={isSubmitting}
+            maxLength="1000"
+            rows="4"
+          />
+
+          {isCommentInvalid ? (
+            <ValidationHint
+              id={commentErrorId}
+              className={['review-form-input-hint', styles.reviewFormInputHint].join(' ')}
+              message={fieldErrors.comentario}
+            />
+          ) : null}
+        </div>
       </label>
 
       <div className={['review-form-actions', styles.reviewFormActions].join(' ')}>

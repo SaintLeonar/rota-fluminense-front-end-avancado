@@ -1,7 +1,7 @@
 import styles from './ReviewCard.module.css'
 
 function formatReviewDate(dateString) {
-  const date = new Date(`${dateString}T12:00:00`)
+  const date = new Date(dateString)
 
   if (Number.isNaN(date.getTime())) {
     return dateString
@@ -11,6 +11,7 @@ function formatReviewDate(dateString) {
     day: '2-digit',
     month: 'short',
     year: 'numeric',
+    timeZone: 'America/Sao_Paulo',
   })
     .format(date)
     .toUpperCase()
@@ -51,18 +52,6 @@ export default function ReviewCard({ review }) {
         */}
       </div>
 
-      {/*
-        Assinatura temporariamente oculta:
-        o dado continua disponivel no JSON e pode ser reativado depois, se fizer sentido.
-      */}
-      {/*
-      {review.assinatura ? (
-        <p className={['review-card-signature', styles.reviewCardSignature].join(' ')}>
-          {review.assinatura}
-        </p>
-      ) : null}
-      */}
-
       <div
         className={['review-card-stars', styles.reviewCardStars].join(' ')}
         aria-label={`Nota ${review.nota}`}
@@ -90,9 +79,11 @@ export default function ReviewCard({ review }) {
         ))}
       </div>
 
-      <p className={['review-card-comment', styles.reviewCardComment].join(' ')}>
-        {review.comentario}
-      </p>
+      {review.comentario ? (
+        <p className={['review-card-comment', styles.reviewCardComment].join(' ')}>
+          {review.comentario}
+        </p>
+      ) : null}
     </article>
   )
 }

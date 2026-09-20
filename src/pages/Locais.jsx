@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import './Locais.css'
 import CategoryPills from '../components/CategoryPills'
 import EmptyState from '../components/EmptyState'
-import FeedbackAlert from '../components/FeedbackAlert'
+import RetryFeedback from '../components/RetryFeedback'
 import LocalCard from '../components/LocalCard'
 import LoadingState from '../components/LoadingState'
 import PageContainer from '../components/PageContainer'
@@ -18,13 +18,19 @@ export default function Locais() {
   const {
     status,
     errorMessage,
+    retry,
     searchTerm,
     setSearchTerm,
     activeCategory,
     setActiveCategory,
     categories,
     visibleLocais,
+    hasLocais,
+    hasActiveFilters,
+    resultCount,
   } = useLocais()
+
+  const placesLabel = resultCount === 1 ? 'lugar' : 'lugares'
 
   return (
     <PageContainer
@@ -41,14 +47,21 @@ export default function Locais() {
       ) : null}
 
       {status === 'error' ? (
-        <FeedbackAlert
-          variant="error"
-          title="Nao foi possivel carregar os locais"
+        <RetryFeedback
+          title="Não foi possível carregar os locais"
           message={errorMessage || 'Tente novamente em instantes.'}
+          onRetry={retry}
         />
       ) : null}
 
-      {status === 'success' ? (
+      {status === 'success' && !hasLocais ? (
+        <EmptyState
+          title="Nenhum local disponível"
+          description="A API não retornou locais para explorar neste momento."
+        />
+      ) : null}
+
+      {hasLocais ? (
         <section className="locais-content stack-md" aria-label="Resumo de locais">
           <SearchBar
             label="Buscar por nome, bairro ou categoria"
@@ -65,7 +78,7 @@ export default function Locais() {
 
           <div className="locais-section-header" aria-label="Resumo da listagem">
             <h2 className="locais-section-title">
-              {visibleLocais.length} lugares para explorar
+              {resultCount} {placesLabel} para explorar
             </h2>
           </div>
 
@@ -76,15 +89,23 @@ export default function Locais() {
                   key={local.id}
                   local={local}
                   onSelect={(selectedLocal) =>
-                    navigate(`/locais/${selectedLocal.slug}`)
+                    navigate('/locais/' + selectedLocal.slug)
                   }
                 />
               ))}
             </div>
           ) : (
             <EmptyState
-              title="Nenhum resultado para esta busca"
-              description="Revise o termo digitado ou experimente explorar outra categoria."
+              title={
+                hasActiveFilters
+                  ? 'Nenhum resultado para estes filtros'
+                  : 'Nenhum local disponível'
+              }
+              description={
+                hasActiveFilters
+                  ? 'Revise o termo digitado ou experimente outra categoria.'
+                  : 'A API não retornou locais para explorar neste momento.'
+              }
             />
           )}
 

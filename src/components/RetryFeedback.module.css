@@ -1,0 +1,8 @@
+.retryFeedback {
+  display: grid;
+  gap: 12px;
+}
+
+.retryButton {
+  justify-self: start;
+}

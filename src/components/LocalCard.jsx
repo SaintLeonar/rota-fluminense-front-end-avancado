@@ -8,7 +8,7 @@ export default function LocalCard({ local, onSelect }) {
         <img
           className="local-card-image"
           src={local.imagem}
-          alt={`Vista de ${local.nome}`}
+          alt={'Vista de ' + local.nome}
         />
       </div>
 
@@ -16,7 +16,7 @@ export default function LocalCard({ local, onSelect }) {
         <div className="local-card-copy">
           <strong className="local-card-title">{local.nome}</strong>
           <span className="local-card-location">
-            {local.bairro} • {local.categoria}
+            {local.bairro} • {local.categoriaLabel}
           </span>
         </div>
 
