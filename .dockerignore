@@ -1,0 +1,44 @@
+# Controle de versão, agentes e editores
+.git/
+.gitattributes
+.gitignore
+.agents/
+.vscode/
+.idea/
+.DS_Store
+.editorconfig
+
+# Ambientes e configurações locais
+.env
+.env.*
+!.env.example
+*.local
+
+# Dependências, caches, cobertura e builds anteriores
+node_modules/
+.npm/
+.vite/
+coverage/
+dist/
+dist-ssr/
+
+# Testes e configurações de qualidade não usados no build
+**/*.test.*
+src/test/
+eslint.config.js
+vitest.config.js
+
+# Logs e temporários
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+.tmp/
+tmp/
+
+# Documentação não usada na imagem
+docs/
+README.md
