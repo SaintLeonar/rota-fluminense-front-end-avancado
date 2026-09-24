@@ -163,6 +163,79 @@ describe('avaliacoesService', () => {
     expect(error.details[0].campo).toBe(field)
     expect(request).not.toHaveBeenCalled()
   })
+
+  it('atualiza avaliação pelo identificador e adapta a resposta', async () => {
+    const request = vi.fn().mockResolvedValue(
+      makeRawReview({ autor: 'Ana Atualizada', nota: 4 }),
+    )
+    const service = createAvaliacoesService({ request })
+    const signal = new AbortController().signal
+
+    await expect(
+      service.updateAvaliacao(
+        10,
+        { autor: ' Ana Atualizada ', nota: 4, comentario: ' Revisado ' },
+        { signal },
+      ),
+    ).resolves.toMatchObject({
+      id: 10,
+      autor: 'Ana Atualizada',
+      nota: 4,
+    })
+
+    expect(request).toHaveBeenCalledWith('/avaliacoes/10', {
+      method: 'PATCH',
+      body: {
+        autor: 'Ana Atualizada',
+        nota: 4,
+        comentario: 'Revisado',
+      },
+      signal,
+    })
+  })
+
+  it('preserva a semântica parcial do PATCH', async () => {
+    const request = vi.fn().mockResolvedValue(makeRawReview({ nota: 2 }))
+    const service = createAvaliacoesService({ request })
+
+    await service.updateAvaliacao(10, { nota: 2 })
+
+    expect(request).toHaveBeenCalledWith('/avaliacoes/10', {
+      method: 'PATCH',
+      body: { nota: 2 },
+      signal: undefined,
+    })
+  })
+
+  it('exclui avaliação pelo identificador e aceita resposta 204', async () => {
+    const request = vi.fn().mockResolvedValue(null)
+    const service = createAvaliacoesService({ request })
+    const signal = new AbortController().signal
+
+    await expect(
+      service.deleteAvaliacao(10, { signal }),
+    ).resolves.toBeNull()
+    expect(request).toHaveBeenCalledWith('/avaliacoes/10', {
+      method: 'DELETE',
+      signal,
+    })
+  })
+
+  it.each([
+    ['identificador do PATCH', () => ['updateAvaliacao', 0, { nota: 4 }]],
+    ['payload vazio', () => ['updateAvaliacao', 10, {}]],
+    ['autor nulo', () => ['updateAvaliacao', 10, { autor: null }]],
+    ['identificador do DELETE', () => ['deleteAvaliacao', -1]],
+  ])('rejeita mutação inválida antes da rede: %s', async (_label, arrange) => {
+    const request = vi.fn()
+    const service = createAvaliacoesService({ request })
+    const [method, ...args] = arrange()
+
+    await expect(service[method](...args)).rejects.toMatchObject({
+      code: 'requisicao_cliente_invalida',
+    })
+    expect(request).not.toHaveBeenCalled()
+  })
 })
 
 describe('climaService', () => {

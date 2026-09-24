@@ -16,6 +16,9 @@ export default function ReviewForm({
   isSubmitting = false,
   className = '',
   title = 'Escrever uma nota',
+  submitLabel = 'Postar',
+  submittingLabel = 'Postando...',
+  autoFocusAuthor = false,
 }) {
   const resolvedClassName = ['review-form', styles.reviewForm, className]
     .filter(Boolean)
@@ -65,6 +68,7 @@ export default function ReviewForm({
             onChange={handleFieldChange}
             placeholder="Como assinar?"
             autoComplete="off"
+            autoFocus={autoFocusAuthor}
             aria-invalid={isAuthorInvalid}
             aria-describedby={isAuthorInvalid ? authorErrorId : undefined}
             aria-label="Seu nome"
@@ -186,7 +190,7 @@ export default function ReviewForm({
             type="submit"
             disabled={isSubmitting}
           >
-            {isSubmitting ? 'Postando...' : 'Postar'}
+            {isSubmitting ? submittingLabel : submitLabel}
           </PrimaryButton>
         </div>
       </div>

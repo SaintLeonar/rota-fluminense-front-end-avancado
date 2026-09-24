@@ -210,6 +210,11 @@
   letter-spacing: -0.03em;
   color: #082a52;
 }
+.detail-reviews-title:focus-visible {
+  border-radius: 6px;
+  outline: 3px solid color-mix(in srgb, #57a9c0 42%, white);
+  outline-offset: 4px;
+}
 
 .primary-button.detail-review-cta {
   position: relative;

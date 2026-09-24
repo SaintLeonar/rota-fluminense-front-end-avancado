@@ -61,12 +61,26 @@ function detalheState(overrides = {}) {
     isSubmittingReview: false,
     reviewFieldErrors: {},
     submitFeedback: null,
+    editingReviewId: null,
+    editReviewValues: null,
+    editReviewFieldErrors: {},
+    deleteConfirmationId: null,
+    reviewMutation: null,
+    reviewMutationFeedback: null,
+    isReviewMutationPending: false,
     totalReviews: 2,
     averageRating: 4.5,
     handleReviewChange: vi.fn(),
     handleOpenReviewForm: vi.fn(),
     handleCancelReviewForm: vi.fn(),
     handleReviewSubmit: vi.fn(),
+    handleStartReviewEdit: vi.fn(),
+    handleEditReviewChange: vi.fn(),
+    handleCancelReviewEdit: vi.fn(),
+    handleReviewUpdateSubmit: vi.fn(),
+    handleRequestReviewDelete: vi.fn(),
+    handleCancelReviewDelete: vi.fn(),
+    handleConfirmReviewDelete: vi.fn(),
     ...overrides,
   }
 }
@@ -212,5 +226,142 @@ describe('página de detalhe', () => {
     expect(screen.getByRole('alert')).toHaveTextContent('Falha nas avaliações')
     await user.click(screen.getByRole('button', { name: 'Tentar novamente' }))
     expect(retryReviews).toHaveBeenCalledOnce()
+  })
+
+  it('encaminha edição e pedido de exclusão pelo identificador da avaliação', async () => {
+    const handleStartReviewEdit = vi.fn()
+    const handleRequestReviewDelete = vi.fn()
+    useDetalheLocal.mockReturnValue(
+      detalheState({
+        handleStartReviewEdit,
+        handleRequestReviewDelete,
+      }),
+    )
+    const user = userEvent.setup()
+    render(
+      <MemoryRouter initialEntries={['/locais/arpoador']}>
+        <Routes>
+          <Route path="/locais/:slug" element={<DetalheLocal />} />
+        </Routes>
+      </MemoryRouter>,
+    )
+
+    await user.click(
+      screen.getByRole('button', { name: 'Editar avaliação de Ana' }),
+    )
+    await user.click(
+      screen.getByRole('button', { name: 'Excluir avaliação de Ana' }),
+    )
+
+    expect(handleStartReviewEdit).toHaveBeenCalledWith(10)
+    expect(handleRequestReviewDelete).toHaveBeenCalledWith(10)
+  })
+
+  it('renderiza o formulário de edição com valores atuais', () => {
+    useDetalheLocal.mockReturnValue(
+      detalheState({
+        editingReviewId: 10,
+        editReviewValues: {
+          autor: 'Ana',
+          nota: 5,
+          comentario: 'Vista inesquecível.',
+        },
+      }),
+    )
+    render(
+      <MemoryRouter initialEntries={['/locais/arpoador']}>
+        <Routes>
+          <Route path="/locais/:slug" element={<DetalheLocal />} />
+        </Routes>
+      </MemoryRouter>,
+    )
+
+    expect(
+      screen.getByRole('heading', { name: 'Editar avaliação de Ana' }),
+    ).toBeInTheDocument()
+    expect(screen.getByRole('textbox', { name: 'Seu nome' })).toHaveValue('Ana')
+    expect(
+      screen.getByRole('button', { name: 'Salvar alterações' }),
+    ).toBeInTheDocument()
+  })
+
+  it('só dispara DELETE após a confirmação visível', async () => {
+    const handleConfirmReviewDelete = vi.fn()
+    useDetalheLocal.mockReturnValue(
+      detalheState({
+        deleteConfirmationId: 10,
+        handleConfirmReviewDelete,
+      }),
+    )
+    const user = userEvent.setup()
+    render(
+      <MemoryRouter initialEntries={['/locais/arpoador']}>
+        <Routes>
+          <Route path="/locais/:slug" element={<DetalheLocal />} />
+        </Routes>
+      </MemoryRouter>,
+    )
+
+    expect(
+      screen.getByRole('alertdialog', { name: 'Excluir esta avaliação?' }),
+    ).toBeInTheDocument()
+    expect(handleConfirmReviewDelete).not.toHaveBeenCalled()
+
+    await user.click(
+      screen.getByRole('button', { name: 'Excluir avaliação' }),
+    )
+
+    expect(handleConfirmReviewDelete).toHaveBeenCalledWith(10)
+  })
+
+  it('anuncia erro de mutação sem remover as avaliações', () => {
+    useDetalheLocal.mockReturnValue(
+      detalheState({
+        reviewMutationFeedback: {
+          variant: 'error',
+          title: 'Não foi possível atualizar a avaliação',
+          message: 'Tente novamente.',
+          reviewId: 10,
+        },
+      }),
+    )
+    render(
+      <MemoryRouter initialEntries={['/locais/arpoador']}>
+        <Routes>
+          <Route path="/locais/:slug" element={<DetalheLocal />} />
+        </Routes>
+      </MemoryRouter>,
+    )
+
+    expect(screen.getByRole('alert')).toHaveTextContent(
+      'Não foi possível atualizar a avaliação',
+    )
+    expect(screen.getByText('Vista inesquecível.')).toBeInTheDocument()
+  })
+
+  it('restaura o foco no diário após mutação concluída', () => {
+    useDetalheLocal.mockReturnValue(
+      detalheState({
+        reviewMutationFeedback: {
+          variant: 'success',
+          message: 'Avaliação atualizada com sucesso.',
+          reviewId: 10,
+        },
+      }),
+    )
+    render(
+      <MemoryRouter initialEntries={['/locais/arpoador']}>
+        <Routes>
+          <Route path="/locais/:slug" element={<DetalheLocal />} />
+        </Routes>
+      </MemoryRouter>,
+    )
+
+    expect(
+      screen.getByRole('heading', { name: 'Diario de visitas' }),
+    ).toHaveFocus()
+    expect(screen.getByRole('status')).toHaveTextContent(
+      'Avaliação atualizada com sucesso.',
+    )
   })
 })

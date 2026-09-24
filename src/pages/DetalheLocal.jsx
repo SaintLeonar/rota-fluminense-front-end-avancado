@@ -1,3 +1,4 @@
+import { useEffect, useRef } from 'react'
 import { useLocation, useParams } from 'react-router-dom'
 
 import './DetalheLocal.css'
@@ -100,16 +101,37 @@ export default function DetalheLocal() {
     isSubmittingReview,
     reviewFieldErrors,
     submitFeedback,
+    editingReviewId,
+    editReviewValues,
+    editReviewFieldErrors,
+    deleteConfirmationId,
+    reviewMutation,
+    reviewMutationFeedback,
+    isReviewMutationPending,
     totalReviews,
     averageRating,
     handleReviewChange,
     handleOpenReviewForm,
     handleCancelReviewForm,
     handleReviewSubmit,
+    handleStartReviewEdit,
+    handleEditReviewChange,
+    handleCancelReviewEdit,
+    handleReviewUpdateSubmit,
+    handleRequestReviewDelete,
+    handleCancelReviewDelete,
+    handleConfirmReviewDelete,
   } = useDetalheLocal(slug)
 
+  const reviewsTitleRef = useRef(null)
   const isReviewSuccess = submitFeedback?.variant === 'success'
   const breadcrumbItems = buildBreadcrumbItems(location.pathname, local?.nome)
+
+  useEffect(() => {
+    if (reviewMutationFeedback?.variant === 'success') {
+      reviewsTitleRef.current?.focus()
+    }
+  }, [reviewMutationFeedback])
   const reviewCtaLabel = isReviewSuccess
     ? submitFeedback.message
     : '+ Avaliar'
@@ -122,7 +144,13 @@ export default function DetalheLocal() {
         .filter(Boolean)
         .join(' ')}
       onClick={handleOpenReviewForm}
-      disabled={isReviewSuccess}
+      disabled={
+        isReviewSuccess ||
+        isSubmittingReview ||
+        isReviewMutationPending ||
+        editingReviewId !== null ||
+        deleteConfirmationId !== null
+      }
       aria-label={reviewCtaLabel}
       aria-live="polite"
     >
@@ -140,6 +168,15 @@ export default function DetalheLocal() {
       </span>
     </PrimaryButton>
   )
+
+  function handleCancelEditWithFocus() {
+    const reviewId = editingReviewId
+    handleCancelReviewEdit()
+
+    requestAnimationFrame(() => {
+      document.getElementById('review-' + reviewId + '-edit')?.focus()
+    })
+  }
 
   return (
     <PageContainer
@@ -212,7 +249,13 @@ export default function DetalheLocal() {
 
           <aside className="detail-reviews">
             <div className="detail-reviews-header">
-              <h2 className="detail-reviews-title">Diario de visitas</h2>
+              <h2
+                ref={reviewsTitleRef}
+                className="detail-reviews-title"
+                tabIndex="-1"
+              >
+                Diario de visitas
+              </h2>
 
               {isReviewSuccess ? (
                 reviewCta
@@ -231,6 +274,14 @@ export default function DetalheLocal() {
                 variant={submitFeedback.variant}
                 title={submitFeedback.title}
                 message={submitFeedback.message}
+              />
+            ) : null}
+
+            {reviewMutationFeedback ? (
+              <FeedbackAlert
+                variant={reviewMutationFeedback.variant}
+                title={reviewMutationFeedback.title}
+                message={reviewMutationFeedback.message}
               />
             ) : null}
 
@@ -266,9 +317,58 @@ export default function DetalheLocal() {
 
             {avaliacoes.length > 0 ? (
               <div className="review-list detail-review-list">
-                {avaliacoes.map((avaliacao) => (
-                  <ReviewCard key={avaliacao.id} review={avaliacao} />
-                ))}
+                {avaliacoes.map((avaliacao) => {
+                  const isEditing = editingReviewId === avaliacao.id
+                  const isDeleteConfirmationOpen =
+                    deleteConfirmationId === avaliacao.id
+                  const isDeleting =
+                    reviewMutation?.type === 'delete' &&
+                    reviewMutation.reviewId === avaliacao.id
+
+                  return (
+                    <div
+                      key={avaliacao.id}
+                      className="detail-review-entry"
+                    >
+                      {isEditing && editReviewValues ? (
+                        <ReviewForm
+                          className="detail-review-form"
+                          title={'Editar avaliação de ' + avaliacao.autor}
+                          values={editReviewValues}
+                          onChange={handleEditReviewChange}
+                          onSubmit={handleReviewUpdateSubmit}
+                          onCancel={handleCancelEditWithFocus}
+                          fieldErrors={editReviewFieldErrors}
+                          isSubmitting={
+                            reviewMutation?.type === 'update' &&
+                            reviewMutation.reviewId === avaliacao.id
+                          }
+                          submitLabel="Salvar alterações"
+                          submittingLabel="Salvando..."
+                          autoFocusAuthor
+                        />
+                      ) : (
+                        <ReviewCard
+                          review={avaliacao}
+                          onEdit={handleStartReviewEdit}
+                          onRequestDelete={handleRequestReviewDelete}
+                          onCancelDelete={handleCancelReviewDelete}
+                          onConfirmDelete={handleConfirmReviewDelete}
+                          isDeleteConfirmationOpen={
+                            isDeleteConfirmationOpen
+                          }
+                          isMutationPending={
+                            isSubmittingReview ||
+                            isReviewMutationPending ||
+                            editingReviewId !== null ||
+                            deleteConfirmationId !== null
+                          }
+                          isDeleting={isDeleting}
+                        />
+                      )}
+                    </div>
+                  )
+                })}
               </div>
             ) : null}
 

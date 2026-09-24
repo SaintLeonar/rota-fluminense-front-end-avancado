@@ -64,4 +64,31 @@ describe('ReviewForm', () => {
     expect(screen.getByRole('button', { name: 'Cancelar' })).toBeDisabled()
     expect(screen.getByRole('button', { name: 'Postando...' })).toBeDisabled()
   })
+
+  it('adapta rótulos e foco para o modo de edição', () => {
+    renderForm({
+      title: 'Editar avaliação de Ana',
+      submitLabel: 'Salvar alterações',
+      submittingLabel: 'Salvando...',
+      autoFocusAuthor: true,
+    })
+
+    expect(
+      screen.getByRole('heading', { name: 'Editar avaliação de Ana' }),
+    ).toBeInTheDocument()
+    expect(screen.getByRole('textbox', { name: 'Seu nome' })).toHaveFocus()
+    expect(
+      screen.getByRole('button', { name: 'Salvar alterações' }),
+    ).toBeInTheDocument()
+  })
+
+  it('mostra o rótulo de progresso configurado durante a edição', () => {
+    renderForm({
+      isSubmitting: true,
+      submitLabel: 'Salvar alterações',
+      submittingLabel: 'Salvando...',
+    })
+
+    expect(screen.getByRole('button', { name: 'Salvando...' })).toBeDisabled()
+  })
 })

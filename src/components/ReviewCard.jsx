@@ -1,3 +1,5 @@
+import { useEffect, useId, useRef } from 'react'
+
 import styles from './ReviewCard.module.css'
 
 function formatReviewDate(dateString) {
@@ -17,11 +19,40 @@ function formatReviewDate(dateString) {
     .toUpperCase()
 }
 
-export default function ReviewCard({ review }) {
+export default function ReviewCard({
+  review,
+  onEdit,
+  onRequestDelete,
+  onCancelDelete,
+  onConfirmDelete,
+  isDeleteConfirmationOpen = false,
+  isMutationPending = false,
+  isDeleting = false,
+}) {
   const stars = Array.from({ length: 5 }, (_, index) => index + 1)
+  const deleteButtonRef = useRef(null)
+  const confirmButtonRef = useRef(null)
+  const confirmationTitleId = useId()
+  const confirmationDescriptionId = useId()
+  const hasActions =
+    typeof onEdit === 'function' && typeof onRequestDelete === 'function'
+
+  useEffect(() => {
+    if (isDeleteConfirmationOpen) {
+      confirmButtonRef.current?.focus()
+    }
+  }, [isDeleteConfirmationOpen])
+
+  function handleCancelDelete() {
+    onCancelDelete?.()
+    queueMicrotask(() => deleteButtonRef.current?.focus())
+  }
 
   return (
-    <article className={['review-card', styles.reviewCard].join(' ')}>
+    <article
+      className={['review-card', styles.reviewCard].join(' ')}
+      aria-busy={isDeleting}
+    >
       <div className={['review-card-top', styles.reviewCardTop].join(' ')}>
         <div className={['review-card-meta', styles.reviewCardMeta].join(' ')}>
           <h3 className={['review-card-author', styles.reviewCardAuthor].join(' ')}>
@@ -32,29 +63,45 @@ export default function ReviewCard({ review }) {
           </p>
         </div>
 
-        {/*
-          Icone de lixeira desativado no MVP:
-          ainda nao existe regra de permissao para permitir que usuarios removam comentarios.
-        */}
-        {/*
-        <span className="review-card-icon" aria-hidden="true">
-          <svg viewBox="0 0 24 24" focusable="false">
-            <path
-              d="M9 4.75h6m-7 3.5h8m-7 0v8m6-8v8m2.75-10H6.25m1.5 0l.75 12h7l.75-12"
-              fill="none"
-              stroke="currentColor"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="1.7"
-            />
-          </svg>
-        </span>
-        */}
+        {hasActions ? (
+          <div
+            className={['review-card-actions', styles.reviewCardActions].join(' ')}
+            aria-label={'Ações da avaliação de ' + review.autor}
+          >
+            <button
+              id={'review-' + review.id + '-edit'}
+              type="button"
+              className={['review-card-action', styles.reviewCardAction].join(' ')}
+              onClick={() => onEdit(review.id)}
+              disabled={isMutationPending}
+              aria-label={'Editar avaliação de ' + review.autor}
+            >
+              Editar
+            </button>
+            <button
+              ref={deleteButtonRef}
+              type="button"
+              className={[
+                'review-card-action',
+                'review-card-action-danger',
+                styles.reviewCardAction,
+                styles.reviewCardActionDanger,
+              ].join(' ')}
+              onClick={() => onRequestDelete(review.id)}
+              disabled={isMutationPending}
+              aria-label={'Excluir avaliação de ' + review.autor}
+              aria-expanded={isDeleteConfirmationOpen}
+              aria-controls={'review-' + review.id + '-delete-confirmation'}
+            >
+              Excluir
+            </button>
+          </div>
+        ) : null}
       </div>
 
       <div
         className={['review-card-stars', styles.reviewCardStars].join(' ')}
-        aria-label={`Nota ${review.nota}`}
+        aria-label={'Nota ' + review.nota}
       >
         {stars.map((star) => (
           <span
@@ -83,6 +130,55 @@ export default function ReviewCard({ review }) {
         <p className={['review-card-comment', styles.reviewCardComment].join(' ')}>
           {review.comentario}
         </p>
+      ) : null}
+
+      {isDeleteConfirmationOpen ? (
+        <section
+          id={'review-' + review.id + '-delete-confirmation'}
+          className={[
+            'review-card-confirmation',
+            styles.reviewCardConfirmation,
+          ].join(' ')}
+          role="alertdialog"
+          aria-labelledby={confirmationTitleId}
+          aria-describedby={confirmationDescriptionId}
+        >
+          <h4 id={confirmationTitleId}>Excluir esta avaliação?</h4>
+          <p id={confirmationDescriptionId}>
+            Esta ação não pode ser desfeita.
+          </p>
+          <div
+            className={[
+              'review-card-confirmation-actions',
+              styles.reviewCardConfirmationActions,
+            ].join(' ')}
+          >
+            <button
+              type="button"
+              className={[
+                'review-card-confirmation-cancel',
+                styles.reviewCardConfirmationButton,
+              ].join(' ')}
+              onClick={handleCancelDelete}
+              disabled={isDeleting}
+            >
+              Cancelar
+            </button>
+            <button
+              ref={confirmButtonRef}
+              type="button"
+              className={[
+                'review-card-confirmation-delete',
+                styles.reviewCardConfirmationButton,
+                styles.reviewCardConfirmationDelete,
+              ].join(' ')}
+              onClick={() => onConfirmDelete?.(review.id)}
+              disabled={isDeleting}
+            >
+              {isDeleting ? 'Excluindo...' : 'Excluir avaliação'}
+            </button>
+          </div>
+        </section>
       ) : null}
     </article>
   )

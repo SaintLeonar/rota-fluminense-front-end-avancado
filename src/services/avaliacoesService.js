@@ -39,44 +39,69 @@ function requireSlug(slug) {
   return slug
 }
 
-function normalizeReviewPayload(payload) {
+function requireReviewId(avaliacaoId) {
+  if (!Number.isInteger(avaliacaoId) || avaliacaoId < 1) {
+    throw createRequestError('avaliacao_id')
+  }
+
+  return avaliacaoId
+}
+
+function normalizeReviewPayload(payload, { partial = false } = {}) {
   if (!payload || typeof payload !== 'object' || Array.isArray(payload)) {
     throw createRequestError('avaliacao')
   }
 
-  const unexpectedField = Object.keys(payload).find(
-    (field) => !REVIEW_FIELDS.has(field),
-  )
+  const fields = Object.keys(payload)
+  const unexpectedField = fields.find((field) => !REVIEW_FIELDS.has(field))
 
   if (unexpectedField) {
     throw createRequestError(unexpectedField)
   }
 
-  const autor = typeof payload.autor === 'string' ? payload.autor.trim() : ''
-
-  if (!autor || autor.length > 120) {
-    throw createRequestError('autor')
+  if (partial && fields.length === 0) {
+    throw createRequestError('avaliacao')
   }
 
-  if (!Number.isInteger(payload.nota) || payload.nota < 1 || payload.nota > 5) {
-    throw createRequestError('nota')
-  }
+  const normalizedPayload = {}
 
-  let comentario = null
+  if (!partial || Object.hasOwn(payload, 'autor')) {
+    const autor = typeof payload.autor === 'string' ? payload.autor.trim() : ''
 
-  if (payload.comentario !== undefined && payload.comentario !== null) {
-    if (typeof payload.comentario !== 'string') {
-      throw createRequestError('comentario')
+    if (!autor || autor.length > 120) {
+      throw createRequestError('autor')
     }
 
-    comentario = payload.comentario.trim()
-
-    if (!comentario || comentario.length > 1000) {
-      throw createRequestError('comentario')
-    }
+    normalizedPayload.autor = autor
   }
 
-  return { autor, nota: payload.nota, comentario }
+  if (!partial || Object.hasOwn(payload, 'nota')) {
+    if (!Number.isInteger(payload.nota) || payload.nota < 1 || payload.nota > 5) {
+      throw createRequestError('nota')
+    }
+
+    normalizedPayload.nota = payload.nota
+  }
+
+  if (!partial || Object.hasOwn(payload, 'comentario')) {
+    let comentario = null
+
+    if (payload.comentario !== undefined && payload.comentario !== null) {
+      if (typeof payload.comentario !== 'string') {
+        throw createRequestError('comentario')
+      }
+
+      comentario = payload.comentario.trim()
+
+      if (!comentario || comentario.length > 1000) {
+        throw createRequestError('comentario')
+      }
+    }
+
+    normalizedPayload.comentario = comentario
+  }
+
+  return normalizedPayload
 }
 
 export function createAvaliacoesService({ request = apiRequest } = {}) {
@@ -111,9 +136,45 @@ export function createAvaliacoesService({ request = apiRequest } = {}) {
     return adaptAvaliacao(response)
   }
 
-  return Object.freeze({ listAvaliacoesBySlug, createAvaliacao })
+  async function updateAvaliacao(avaliacaoId, payload, options = {}) {
+    const resolvedOptions = requireOptions(options)
+    const normalizedId = requireReviewId(avaliacaoId)
+    const normalizedPayload = normalizeReviewPayload(payload, { partial: true })
+    const response = await request(
+      '/avaliacoes/' + encodeURIComponent(normalizedId),
+      {
+        method: 'PATCH',
+        body: normalizedPayload,
+        signal: resolvedOptions.signal,
+      },
+    )
+
+    return adaptAvaliacao(response)
+  }
+
+  async function deleteAvaliacao(avaliacaoId, options = {}) {
+    const resolvedOptions = requireOptions(options)
+    const normalizedId = requireReviewId(avaliacaoId)
+
+    return request('/avaliacoes/' + encodeURIComponent(normalizedId), {
+      method: 'DELETE',
+      signal: resolvedOptions.signal,
+    })
+  }
+
+  return Object.freeze({
+    listAvaliacoesBySlug,
+    createAvaliacao,
+    updateAvaliacao,
+    deleteAvaliacao,
+  })
 }
 
 const avaliacoesService = createAvaliacoesService()
 
-export const { listAvaliacoesBySlug, createAvaliacao } = avaliacoesService
+export const {
+  listAvaliacoesBySlug,
+  createAvaliacao,
+  updateAvaliacao,
+  deleteAvaliacao,
+} = avaliacoesService
