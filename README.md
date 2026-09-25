@@ -21,9 +21,9 @@ repositório:
 
 - [Arquitetura Rota Fluminense](<docs/Arquitetura Rota Fluminense.pdf>):
   diagrama da arquitetura e da comunicação entre os componentes do projeto;
-- [Integração com o Open-Meteo](docs/INTEGRACAO_OPEN_METEO.md):
+- [Integração com o Open-Meteo](docs/INTEGRACAO_OPEN_METEO.pdf):
   informações sobre a API externa, licença, cadastro e rotas utilizadas;
-- [Instruções de teste do MVP](docs/INSTRUCOES_TESTE_MVP.md):
+- [Instruções de teste do MVP](docs/INSTRUCOES_TESTE_MVP.pdf):
   passos para iniciar, validar e encerrar a aplicação.
 
 ## Pré-requisitos
