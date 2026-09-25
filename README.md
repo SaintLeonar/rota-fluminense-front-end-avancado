@@ -35,8 +35,9 @@ repositório:
   Compose no fluxo principal.
 
 Mantenha este repositório e `rota-fluminense-backend` como diretórios irmãos.
-O `docker-compose.yml` fica no back-end e usa este diretório como contexto de
-build do serviço `frontend`.
+O `docker-compose.yml` de entrega fica na raiz deste front-end e usa o
+repositório irmão como contexto de build do serviço `backend`. O back-end
+conserva um Compose equivalente para compatibilidade operacional.
 
 Por padrão, a API é esperada em `http://localhost:5000` e a interface é
 publicada em `http://localhost:5173`.
@@ -51,24 +52,24 @@ publicada em `http://localhost:5173`.
 └── rota-fluminense-front-end-avancado/
 ```
 
-2. Entre no diretório do back-end, onde está o arquivo Compose:
+2. Entre no diretório do front-end, onde está o Compose de entrega:
 
 ```powershell
-cd rota-fluminense-backend
+cd rota-fluminense-front-end-avancado
 ```
 
 3. Crie o arquivo de configuração local:
 
 ```powershell
-Copy-Item .env.example .env
+Copy-Item ../rota-fluminense-backend/.env.example ../rota-fluminense-backend/.env
 ```
 
-Revise os valores do arquivo `.env`, principalmente usuário e senha do MySQL.
+Revise os valores de `../rota-fluminense-backend/.env`, principalmente usuário e senha do MySQL.
 
 4. Construa as imagens e inicie a aplicação:
 
 ```powershell
-docker compose --env-file .env up --build --detach --wait
+docker compose --env-file ../rota-fluminense-backend/.env up --build --detach --wait
 ```
 
 O Docker instala as dependências e inicia o front-end, o back-end e o MySQL.
@@ -84,7 +85,7 @@ automaticamente. Não é necessário rodar um comando separado.
 Para encerrar:
 
 ```powershell
-docker compose --env-file .env down
+docker compose --env-file ../rota-fluminense-backend/.env down
 ```
 
 ## Inicialização com inspeção HTTPS do antivírus
@@ -106,10 +107,10 @@ certificado.
 OPEN_METEO_CA_HOST_PATH=C:/certificados/antivirus-root-ca.crt
 ```
 
-6. Na raiz do back-end, inicie a aplicação com a configuração adicional:
+6. Na raiz do front-end, inicie a aplicação com a configuração adicional do back-end:
 
 ```powershell
-docker compose --env-file .env -f docker-compose.yml -f compose.custom-ca.example.yml up --build --detach --wait
+docker compose --env-file ../rota-fluminense-backend/.env -f docker-compose.yml -f ../rota-fluminense-backend/compose.custom-ca.example.yml up --build --detach --wait
 ```
 
 Esse modo monta o certificado somente no back-end e o adiciona às autoridades
@@ -119,7 +120,7 @@ Não versione o certificado e não desabilite a verificação HTTPS.
 Para encerrar essa execução:
 
 ```powershell
-docker compose --env-file .env -f docker-compose.yml -f compose.custom-ca.example.yml down
+docker compose --env-file ../rota-fluminense-backend/.env -f docker-compose.yml -f ../rota-fluminense-backend/compose.custom-ca.example.yml down
 ```
 
 ## Segurança e limitações do MVP
