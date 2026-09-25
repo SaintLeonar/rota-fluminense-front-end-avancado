@@ -36,3 +36,6 @@ docs/requisitos-front-end-avancado.pdf
 # Temporary artifacts
 tmp/pdf/
 tmp/pdfs/
+
+# Documentation backups
+docs/bkp/
